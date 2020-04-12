@@ -1,0 +1,33 @@
+About 2:
+    part 2.2:
+        Coding mistakes:
+        1)malloc is supposed to be:
+                malloc(sizeof(char)*LEN*times);
+            The "sizeof" part is missing.
+        2) out= out+ LEN increment should be after strcpy
+        3)the return value should be the begining of the string
+        4)assert should be "assert(s)" not "assert(!s)" to check if string isn't null
+
+        Convention mistakes:
+        1)for loop content should be indented
+        2)LEN, variables should be small letters
+        3)
+        4)
+
+        Not sure:
+        1)assert(out)?
+            you should not assert a malloc output,
+            but is it a coding mistake or Convention?
+        Doubt it:
+        2)function name? should be named according to action,
+            although, it might be part of a "string" ADT.. so..
+        3)maybe a comment on out variable? but idk.. I doubt it.
+        4)why isn't 0 times allowed? logicly this should just return an empty string.
+
+
+About 3:
+part 3.1:
+we are told to make a map, a dictionary.
+I'm wondering what the struct better look like.
+Should we use A data structure other than a simple array?
+maybe a linked list? for the ease of sorting and expanding.
