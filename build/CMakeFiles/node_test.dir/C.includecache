@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/nativ/Technion/matam/hw1/q1_home/node.c
+node.h
+/home/nativ/Technion/matam/hw1/q1_home/node.h
+stdlib.h
+-
+stdio.h
+-
+
+/home/nativ/Technion/matam/hw1/q1_home/node.h
+stdbool.h
+-
+
+/home/nativ/Technion/matam/hw1/q1_home/node_test.c
+node.h
+/home/nativ/Technion/matam/hw1/q1_home/node.h
+stdlib.h
+-
+stdio.h
+-
+
