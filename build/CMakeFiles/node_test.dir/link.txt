@@ -1,1 +1,0 @@
-/usr/bin/gcc-7 -g  -rdynamic CMakeFiles/node_test.dir/node.c.o CMakeFiles/node_test.dir/node_test.c.o  -o node_test 
