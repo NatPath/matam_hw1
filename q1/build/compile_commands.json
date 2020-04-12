@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/nativ/Technion/matam/hw1/q1_home/q1/build",
+  "command": "/usr/bin/c99-gcc  -I/home/nativ/Technion/matam/hw1/q1_home/q1  -g   -o CMakeFiles/node_test.dir/node.c.o   -c /home/nativ/Technion/matam/hw1/q1_home/q1/node.c",
+  "file": "/home/nativ/Technion/matam/hw1/q1_home/q1/node.c"
+},
+{
+  "directory": "/home/nativ/Technion/matam/hw1/q1_home/q1/build",
+  "command": "/usr/bin/c99-gcc  -I/home/nativ/Technion/matam/hw1/q1_home/q1  -g   -o CMakeFiles/node_test.dir/node_test.c.o   -c /home/nativ/Technion/matam/hw1/q1_home/q1/node_test.c",
+  "file": "/home/nativ/Technion/matam/hw1/q1_home/q1/node_test.c"
+}
+]
