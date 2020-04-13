@@ -1,1 +1,1 @@
-/usr/bin/c99-gcc   -rdynamic CMakeFiles/map_test.dir/map/pairnode/pairnode.c.o CMakeFiles/map_test.dir/map/map.c.o CMakeFiles/map_test.dir/map/map_test.c.o  -o map_test 
+/usr/bin/c99-gcc -g  -rdynamic CMakeFiles/map_test.dir/map/pairnode/pairnode.c.o CMakeFiles/map_test.dir/map/map.c.o CMakeFiles/map_test.dir/map/map_test.c.o  -o map_test 
