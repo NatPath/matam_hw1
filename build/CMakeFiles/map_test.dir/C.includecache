@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../map/pairnode/pairnode.h
+
+/home/nativ/Technion/matam/hw1/matam_hw1/map/map.c
+map.h
+/home/nativ/Technion/matam/hw1/matam_hw1/map/map.h
+pairnode.h
+/home/nativ/Technion/matam/hw1/matam_hw1/map/pairnode.h
+string.h
+-
+stdlib.h
+-
+
+/home/nativ/Technion/matam/hw1/matam_hw1/map/map.h
+stdbool.h
+-
+string.h
+-
+
+/home/nativ/Technion/matam/hw1/matam_hw1/map/map_test.c
+map.h
+/home/nativ/Technion/matam/hw1/matam_hw1/map/map.h
+
+/home/nativ/Technion/matam/hw1/matam_hw1/map/pairnode/pairnode.c
+pairnode.h
+/home/nativ/Technion/matam/hw1/matam_hw1/map/pairnode/pairnode.h
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+
+/home/nativ/Technion/matam/hw1/matam_hw1/map/pairnode/pairnode.h
+
