@@ -4,14 +4,20 @@
 #include <string.h>
 #include <assert.h>
 
-
+#define CHECK_NULL(parameter) \
+if(!parameter) {\
+    return NULL; \
+}
 PairNode createPairNode(const char *key,const char* data){
     PairNode new_node=malloc(sizeof(*new_node));
     if (!new_node){
         return NULL;
     }
     new_node->key=malloc(sizeof(char)*strlen(key)+1);
+    CHECK_NULL(new_node->key);
     new_node->data=malloc(sizeof(char)*strlen(data)+1);
+    CHECK_NULL(new_node->data);
+
     strcpy(new_node->key,key);
     strcpy(new_node->data,data);
     new_node->next=NULL;
@@ -71,6 +77,10 @@ PairNode copyPairNode(PairNode to_copy){
     PairNode head=dummy;
     while(to_copy){
         dummy->next=createPairNode(getKeyPairNode(to_copy),getDataPairNode(to_copy));
+        if(!dummy->next){
+            return NULL;
+        }
+        
         dummy=dummy->next;
         to_copy=to_copy->next;
     }

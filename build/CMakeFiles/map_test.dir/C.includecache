@@ -27,6 +27,8 @@ string.h
 /home/nativ/Technion/matam/hw1/matam_hw1/map/map_test.c
 map.h
 /home/nativ/Technion/matam/hw1/matam_hw1/map/map.h
+stdio.h
+-
 
 /home/nativ/Technion/matam/hw1/matam_hw1/map/pairnode/pairnode.c
 pairnode.h

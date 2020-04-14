@@ -6,5 +6,5 @@ C_FLAGS = -g
 
 C_DEFINES = 
 
-C_INCLUDES = -I/home/nativ/Technion/matam/hw1/matam_hw1 -I/home/nativ/Technion/matam/hw1/matam_hw1/map -I/home/nativ/Technion/matam/hw1/matam_hw1/map/pairnode 
+C_INCLUDES = -I/home/nativ/Technion/matam/hw1/matam_hw1/map -I/home/nativ/Technion/matam/hw1/matam_hw1/map/pairnode 
 

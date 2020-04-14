@@ -5,7 +5,7 @@
 
 struct Map_t{
     PairNode head;
-    PairNode *iterator;
+    PairNode iterator;
 };
 PairNode mapFind(Map map,const char* key,PairNode *previous);
 void printMap(Map map);
@@ -127,18 +127,25 @@ MapResult mapRemove(Map map, const char* key){
 
 char* mapGetFirst(Map map)
 {
-    map->iterator = &(map->head);
-    return getKeyPairNode(*(map->iterator));
+    if(!map || mapGetSize(map) == 0){
+        return NULL;
+    }
+
+    map->iterator = map->head;
+    return getKeyPairNode(map->iterator);
 }
+
 char* mapGetNext(Map map){
-    if (!map){
+    if(!map || !map->iterator){
         return NULL;
     }
-    PairNode val_holder=getNextPairNode(*(map->iterator));
-    if (!val_holder){
+
+    PairNode val_holder=getNextPairNode(map->iterator);
+    if(!val_holder){
         return NULL;
     }
-    map->iterator=&val_holder;
+
+    map->iterator=val_holder;
     return getKeyPairNode(val_holder);
 }
 
