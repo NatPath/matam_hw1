@@ -17,7 +17,7 @@ if(!elememt){\
 struct election_t{
     Map tribe_id_to_name;
     Map area_id_to_name;
-    NodeBallot ballots;
+    BallorNode ballots;
 };
 
 //signals whether we want to use the tribe or area for their similiar functions
@@ -38,7 +38,7 @@ Election electionCreate(){
     new_election->area_id_to_name=mapCreate();
     CHECK_NULL(new_election->area_id_to_name)
 
-    new_election->ballots=nodeBallotCreate();
+    new_election->ballots=ballotNodeCreate();
     CHECK_NULL(new_election->ballots)
 
     return new_election;
@@ -50,7 +50,7 @@ void electionDestroy(Election election){
     }
     mapDestroy(election->tribe_id_to_name);
     mapDestroy(election->area_id_to_name);
-    nodeBallotDestroy(election->ballots);
+    ballotNodeDestroy(election->ballots);
     free(election);
 }
 
@@ -70,25 +70,27 @@ static ElectionResult electionAddToMap(Election election, int id, const char* na
         return ELECTION_INVALID_ID;
     }
 
-    if(!lowercaseAndSpacesOnly(name))){
-        return ELECTION_INVALID_NAME
+    if(!lowerCaseAndSpacesOnly(name))){
+        return ELECTION_INVALID_NAME;
     }
 
     char *key = intToString(id);
     CHECK_NULL_CRASH(election,key)
     MapResult put_result;
     if(use_case == USE_TRIBE){
-        if(mapContains(map,key)){
+        if(mapContains(election->tribe_id_to_name,key)){
             return ELECTION_TRIBE_ALREADY_EXIST;
         }
         put_result = mapPut(election->tribe_id_to_name,key,name);
+        //update BallotNode is needed
     }
     else
     {
-        if(mapContains(map,key)){
+        if(mapContains(election->area_id_to_name,key)){
             return ELECTION_AREA_ALREADY_EXIST;
         }
         put_result = mapPut(election->area_id_to_name,key,name);
+        //update BallotNode is needed
     }
     
     if(put_result == MAP_OUT_OF_MEMORY){
@@ -142,6 +144,5 @@ ElectionResult electionAddVote (Election election, int area_id, int tribe_id, in
         return ELECTION_NULL_ARGUMENT;
     }
     electionGetTribeName(election,tribe_id);
-   findNodeBallot() 
     
 }

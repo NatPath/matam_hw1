@@ -4,19 +4,20 @@
 #include <string.h>
 #include <assert.h>
 
+//a macro for checking null of a parameter and returning null if so
 #define CHECK_NULL(parameter) \
 if(!parameter) {\
     return NULL; \
-}
+}\
+(void)0
+
 PairNode createPairNode(const char *key,const char* data){
     PairNode new_node=malloc(sizeof(*new_node));
-    if (!new_node){
-        return NULL;
-    }
+    CHECK_NULL(new_node);
     new_node->key=malloc(sizeof(char)*strlen(key)+1);
-    CHECK_NULL(new_node->key)
+    CHECK_NULL(new_node->key);
     new_node->data=malloc(sizeof(char)*strlen(data)+1);
-    CHECK_NULL(new_node->data)
+    CHECK_NULL(new_node->data);
 
     strcpy(new_node->key,key);
     strcpy(new_node->data,data);
@@ -24,16 +25,16 @@ PairNode createPairNode(const char *key,const char* data){
     return new_node;
 }
 char* getKeyPairNode(PairNode node){
+    CHECK_NULL(node);
     return node->key;
 }
 char* getDataPairNode(PairNode node){
+    CHECK_NULL(node);
     return node->data;
 }
 
 PairNode getNextPairNode(PairNode node){
-    if(!node){
-        return NULL;
-    }
+    CHECK_NULL(node);
     return node->next;
 }
 void setNextPairNode(PairNode node,PairNode next){
@@ -41,6 +42,8 @@ void setNextPairNode(PairNode node,PairNode next){
 }
 
 void setDataPairNode(PairNode node,const char* data){
+    assert(node);
+    assert(node->data);
     free(node->data);
     node->data=malloc(sizeof(char)*strlen(data)+1);
     strcpy(node->data,data);
@@ -61,9 +64,7 @@ void destroyPairNode(PairNode to_destroy){
     }
 }
 PairNode getLastPairNode(PairNode node){
-    if(!node){
-        return NULL;
-    }
+    CHECK_NULL(node);
     while (node->next){
         node=node->next;
     }
@@ -71,16 +72,11 @@ PairNode getLastPairNode(PairNode node){
 }
 PairNode copyPairNode(PairNode to_copy){
     PairNode dummy=createPairNode("foo","bar");
-    if (!dummy){
-        return NULL;
-    }
+    CHECK_NULL(dummy);
     PairNode head=dummy;
     while(to_copy){
         dummy->next=createPairNode(getKeyPairNode(to_copy),getDataPairNode(to_copy));
-        if(!dummy->next){
-            return NULL;
-        }
-        
+        CHECK_NULL(dummy->next);
         dummy=dummy->next;
         to_copy=to_copy->next;
     }
