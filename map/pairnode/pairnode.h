@@ -8,7 +8,7 @@ typedef struct pairnode_h{
 }*PairNode;
 
 //Gets a key and a value and returns a single pairnode which holds them together
-PairNode createPairNode(char* key,char* data);
+PairNode createPairNode(const char* key,const char* data);
 
 //gets a node returns the key it holds
 char* getKeyPairNode(PairNode node);
@@ -19,15 +19,19 @@ char* getDataPairNode(PairNode node);
 // gets a node, returns the next node linked to it
 PairNode getNextPairNode(PairNode node);
 
-void setNextPairNode();
+void setNextPairNode(PairNode node,PairNode next);
 
-void setDataPairNode(PairNode node,char* data);
+void setDataPairNode(PairNode node,const char* data);
 
 // frees only the specified node
 void freePairNode(PairNode node);
 
 //gets a pairnode, free each node it leads to including itself. 
 void destroyPairNode(PairNode to_destroy);
+
+PairNode getLastPairNode(PairNode node);
+
+PairNode copyPairNode(PairNode to_copy);
 
 /*
     debug zone

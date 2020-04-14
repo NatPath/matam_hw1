@@ -182,12 +182,6 @@ char* mapGetNext(Map map);
 */
 MapResult mapClear(Map map);
 
-
-
-
-//DEBUG
-void printMap(Map map);
-
 /*!
 * Macro for iterating over a map.
 * Declares a new iterator for the loop.
@@ -197,6 +191,7 @@ void printMap(Map map);
         iterator ;\
         iterator = mapGetNext(map))
 
+void printMap(Map map);
 #endif /* MAP_H_ */
 
 

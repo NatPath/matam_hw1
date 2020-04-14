@@ -7,6 +7,8 @@ struct Map_t{
     PairNode head;
     PairNode *iterator;
 };
+PairNode mapFind(Map map,const char* key,PairNode *previous);
+void printMap(Map map);
 
 Map mapCreate(){
     Map new_map=malloc(sizeof(*new_map));
@@ -22,7 +24,9 @@ void mapDestroy(Map map){
     free(map);
 }
 
-Map mapCopy(Map map){
+
+//bugs: copies in reverse, does a segmentation fault
+Map mapCopy_old(Map map){
     if(!map){
         return NULL;
     }
@@ -39,6 +43,21 @@ Map mapCopy(Map map){
         }
          
     }
+    return new_map;
+}
+Map mapCopy(Map map){
+    if(!map){
+        return NULL;
+    }
+    Map new_map=mapCreate();
+    if(!new_map){
+        return NULL;
+    }
+    PairNode head=copyPairNode(map->head);
+    if (!head){
+        return NULL;
+    }
+    new_map->head=head;
     return new_map;
 }
 
@@ -112,7 +131,13 @@ char* mapGetFirst(Map map)
     return getKeyPairNode(*(map->iterator));
 }
 char* mapGetNext(Map map){
+    if (!map){
+        return NULL;
+    }
     PairNode val_holder=getNextPairNode(*(map->iterator));
+    if (!val_holder){
+        return NULL;
+    }
     map->iterator=&val_holder;
     return getKeyPairNode(val_holder);
 }
@@ -137,13 +162,13 @@ PairNode mapFind(Map map,const char* key,PairNode *previous){
     PairNode *previous_res=NULL;
     PairNode next_node;
     while(*pointer){
-        if (strcmp(getKeyPairNode(*(pointer)),key) == 0){
-           if (!previous){
-                *previous=previous_res;
+        if (strcmp(getKeyPairNode(*pointer),key) == 0){
+           if (previous){
+                *previous=*previous_res;
             }
             return *pointer;         
         }
-        *previous_res=pointer;
+        previous_res=pointer;
         next_node = getNextPairNode(*pointer);
         pointer=&(next_node);
 

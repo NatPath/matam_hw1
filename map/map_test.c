@@ -9,6 +9,10 @@ int main(){
     mapPut(new_map,"3","three");
 
     printMap(new_map);
+    Map map2=mapCopy(new_map);
+    mapDestroy(new_map);
+    printMap(map2);
+
     return 0;
     
 }

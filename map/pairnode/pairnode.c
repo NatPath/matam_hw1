@@ -1,11 +1,19 @@
 #include "pairnode.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
 
 
-PairNode createPairNode(char *key,char* value){
+PairNode createPairNode(const char *key,const char* data){
     PairNode new_node=malloc(sizeof(*new_node));
+    if (!new_node){
+        return NULL;
+    }
+    new_node->key=malloc(sizeof(char)*strlen(key)+1);
+    new_node->data=malloc(sizeof(char)*strlen(data)+1);
     strcpy(new_node->key,key);
-    strcpy(new_node->data,value);
+    strcpy(new_node->data,data);
     new_node->next=NULL;
     return new_node;
 }
@@ -17,17 +25,25 @@ char* getDataPairNode(PairNode node){
 }
 
 PairNode getNextPairNode(PairNode node){
+    if(!node){
+        return NULL;
+    }
     return node->next;
 }
 void setNextPairNode(PairNode node,PairNode next){
     node->next=next;
 }
 
-void setDataPairNode(PairNode node,char* data){
-    node->data=data;
+void setDataPairNode(PairNode node,const char* data){
+    free(node->data);
+    node->data=malloc(sizeof(char)*strlen(data)+1);
+    strcpy(node->data,data);
 }
 
 void freePairNode(PairNode node){
+    assert(node);
+    free(node->key);
+    free(node->data);
     free(node);
 }
 
@@ -37,6 +53,30 @@ void destroyPairNode(PairNode to_destroy){
         freePairNode(to_destroy);
         to_destroy=next;
     }
+}
+PairNode getLastPairNode(PairNode node){
+    if(!node){
+        return NULL;
+    }
+    while (node->next){
+        node=node->next;
+    }
+    return node;
+}
+PairNode copyPairNode(PairNode to_copy){
+    PairNode dummy=createPairNode("foo","bar");
+    if (!dummy){
+        return NULL;
+    }
+    PairNode head=dummy;
+    while(to_copy){
+        dummy->next=createPairNode(getKeyPairNode(to_copy),getDataPairNode(to_copy));
+        dummy=dummy->next;
+        to_copy=to_copy->next;
+    }
+    PairNode res=head->next;
+    freePairNode(head);
+    return rest;
 }
 
 /*
