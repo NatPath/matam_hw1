@@ -114,6 +114,7 @@ MapResult mapRemove(Map map, const char* key){
     if(!map || !key){
         return MAP_NULL_ARGUMENT;
     }
+    //git test
     PairNode previous;
     PairNode res=mapFind(map,key,&previous);
     if (!res){
