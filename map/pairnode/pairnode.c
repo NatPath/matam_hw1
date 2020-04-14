@@ -76,7 +76,7 @@ PairNode copyPairNode(PairNode to_copy){
     }
     PairNode res=head->next;
     freePairNode(head);
-    return rest;
+    return res;
 }
 
 /*
