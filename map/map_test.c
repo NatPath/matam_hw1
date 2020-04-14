@@ -22,6 +22,7 @@ int main(){
    }
  
    printf("%s", mapGet(map2,"999"));
+    mapDestroy(map2);
 
     return 0;
     

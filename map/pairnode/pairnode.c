@@ -14,9 +14,9 @@ PairNode createPairNode(const char *key,const char* data){
         return NULL;
     }
     new_node->key=malloc(sizeof(char)*strlen(key)+1);
-    CHECK_NULL(new_node->key);
+    CHECK_NULL(new_node->key)
     new_node->data=malloc(sizeof(char)*strlen(data)+1);
-    CHECK_NULL(new_node->data);
+    CHECK_NULL(new_node->data)
 
     strcpy(new_node->key,key);
     strcpy(new_node->data,data);

@@ -5,7 +5,7 @@
 #ifndef MTM_ELECTION_H
 #define MTM_ELECTION_H
 
-#include "mtm_map/map.h"
+#include "../ex1/mtm_map/map.h"
 
 typedef struct election_t* Election;
 
@@ -21,6 +21,8 @@ typedef enum ElectionResult_t {
     ELECTION_AREA_NOT_EXIST,
     ELECTION_INVALID_VOTES
 } ElectionResult;
+
+
 
 typedef bool (*AreaConditionFunction) (int);
 
@@ -45,5 +47,6 @@ ElectionResult electionRemoveTribe (Election election, int tribe_id);
 ElectionResult electionRemoveAreas(Election election, AreaConditionFunction should_delete_area);
 
 Map electionComputeAreasToTribesMapping (Election election);
+
 
 #endif //MTM_ELECTION_H
