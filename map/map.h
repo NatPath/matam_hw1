@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <string.h>
+#include "pairnode.h"
 /**
 * Map Container
 *
@@ -182,7 +183,7 @@ char* mapGetNext(Map map);
 */
 MapResult mapClear(Map map);
 
-
+PairNode mapFind(Map map,const char* key,PairNode *previous);
 
 
 //DEBUG

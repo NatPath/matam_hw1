@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/map.c
+map.h
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/map.h
+pairnode.h
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/pairnode.h
+string.h
+-
+stdlib.h
+-
+
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/map.h
+stdbool.h
+-
+string.h
+-
+pairnode.h
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/pairnode.h
+
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/map_test.c
+map.h
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/map.h
+stdio.h
+-
+
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/pairnode.c
+pairnode.h
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/pairnode.h
+stdlib.h
+-
+
+C:/Users/user/Documents/Matam_Hw/matam_hw1/map/pairnode.h
+

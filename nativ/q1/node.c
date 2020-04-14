@@ -11,6 +11,7 @@ Node createNode(int x,Node next){
     new_node->x=x;
     new_node->next=next;
     return new_node;
+    
 }
 void destroyNode(Node node){
     while(node){
@@ -41,7 +42,8 @@ ErrorCode createFromArray(int arr[],int size,Node *res_node){
         }
     }
     *res_node=head;
-    return SUCCESS;
+    return SUCCESS; 
+    
 }
 
 void printNode(Node node){

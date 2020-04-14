@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 struct Map_t{
     PairNode head;
     PairNode *iterator;
@@ -108,11 +109,23 @@ MapResult mapRemove(Map map, const char* key){
 
 char* mapGetFirst(Map map)
 {
+    if(!map || mapGetSize(map) == 0){
+        return NULL;
+    }
+
     map->iterator = &(map->head);
     return getKeyPairNode(*(map->iterator));
 }
 char* mapGetNext(Map map){
+    if(!map || !(*(map->iterator))){
+        return NULL;
+    }
+
     PairNode val_holder=getNextPairNode(*(map->iterator));
+    if(!val_holder){
+        return NULL;
+    }
+
     map->iterator=&val_holder;
     return getKeyPairNode(val_holder);
 }
@@ -138,12 +151,12 @@ PairNode mapFind(Map map,const char* key,PairNode *previous){
     PairNode next_node;
     while(*pointer){
         if (strcmp(getKeyPairNode(*(pointer)),key) == 0){
-           if (!previous){
-                *previous=previous_res;
+           if (previous){
+                *previous=*previous_res;
             }
             return *pointer;         
         }
-        *previous_res=pointer;
+        previous_res=pointer;
         next_node = getNextPairNode(*pointer);
         pointer=&(next_node);
 

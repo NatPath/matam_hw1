@@ -2,10 +2,15 @@
 #include <stdlib.h>
 
 
-PairNode createPairNode(char *key,char* value){
+PairNode createPairNode(char *key,char* data){
     PairNode new_node=malloc(sizeof(*new_node));
+
+    new_node->key = (char*)(malloc(strlen(key) + 1));
     strcpy(new_node->key,key);
-    strcpy(new_node->data,value);
+
+    new_node->data = (char*)(malloc(strlen(data) + 1));
+    strcpy(new_node->data,data);
+
     new_node->next=NULL;
     return new_node;
 }
