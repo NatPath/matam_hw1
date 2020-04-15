@@ -2,22 +2,22 @@
 #include "map.h"
 #include <string.h>
 
-#define CRASH(election) electionDestroy(election)\
-return ELECTION_OUT_OF_MEMORY;\
+#define CRASH(election) electionDestroy(election);\
+return ELECTION_OUT_OF_MEMORY; (void)0
 
 //checks whether the given element is null and returns null if it is.
-#define CHECK_NULL(elememt) if(!elememt){return NULL;}
+#define CHECK_NULL(element) if(!element){return NULL;} (void)0
 //checks whether the given element is null. 
 //releases resources and return appropriate result if it is.
-#define CHECK_NULL_CRASH(election,elememt) \
-if(!elememt){\
+#define CHECK_NULL_CRASH(election,element) \
+if(!element){\
   CRASH(election)\
-}
+} (void)(0)
 
 struct election_t{
     Map tribe_id_to_name;
     Map area_id_to_name;
-    BallorNode ballots;
+    BallotNode ballots;
 };
 
 //signals whether we want to use the tribe or area for their similiar functions
@@ -30,16 +30,16 @@ typedef enum TribeOrArea_t {
 
 Election electionCreate(){
     Election new_election= malloc(sizeof(*new_election));
-    CHECK_NULL(new_election)
+    CHECK_NULL(new_election);
     
     new_election->tribe_id_to_name=mapCreate();
-    CHECK_NULL(new_election->tribe_id_to_name)
+    CHECK_NULL(new_election->tribe_id_to_name);
 
     new_election->area_id_to_name=mapCreate();
-    CHECK_NULL(new_election->area_id_to_name)
+    CHECK_NULL(new_election->area_id_to_name);
 
     new_election->ballots=ballotNodeCreate();
-    CHECK_NULL(new_election->ballots)
+    CHECK_NULL(new_election->ballots);
 
     return new_election;
 }
@@ -75,7 +75,7 @@ static ElectionResult electionAddToMap(Election election, int id, const char* na
     }
 
     char *key = intToString(id);
-    CHECK_NULL_CRASH(election,key)
+    CHECK_NULL_CRASH(election,key);
     MapResult put_result;
     if(use_case == USE_TRIBE){
         if(mapContains(election->tribe_id_to_name,key)){
@@ -94,7 +94,7 @@ static ElectionResult electionAddToMap(Election election, int id, const char* na
     }
     
     if(put_result == MAP_OUT_OF_MEMORY){
-        CRASH(election)
+        CRASH(election);
     }
     free(key);
     return ELECTION_SUCCESS;
@@ -105,7 +105,7 @@ const char* electionGetTribeName (Election election, int tribe_id){
         return NULL;
     }
     char *key = intToString(id);
-    CHECK_NULL_CRASH(election,key)
+    CHECK_NULL_CRASH(election,key);
     const char* name =  mapGet(election->tribe_id_to_name,key);
     free(key);
     return name;
@@ -130,7 +130,7 @@ ElectionResult electionSetTribeName (Election election, int tribe_id, const char
     
     
      char *key = intToString(id);
-     CHECK_NULL_CRASH(election,key)
+     CHECK_NULL_CRASH(election,key);
      if(mapPut(election->tribe_id_to_name,key,tribe_name) == MAP_OUT_OF_MEMORY){
          CRASH(election);
      }
