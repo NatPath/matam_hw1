@@ -1,6 +1,6 @@
 #include "election.h"
 #include "map.h"
-#include "areaNode.h"
+#include "AreaNode.h"
 #include "area.h"
 #include <string.h>
 
@@ -13,7 +13,7 @@ return ELECTION_OUT_OF_MEMORY; (void)0
 //releases resources and return appropriate result if it is.
 #define CHECK_NULL_CRASH(election, element) \
 if(!element){\
-  CRASH(election)\
+  CRASH(election);\
 } (void)(0)
 
 struct election_t {
@@ -71,14 +71,14 @@ ElectionResult electionAddTribe(Election election, int tribe_id, const char *tri
         return argumentValid;
     }
 
-    char *key = intToString(id);
+    char *key = intToString(tribe_id);
     CHECK_NULL_CRASH(election, key);
 
     if (mapContains(election->tribe_id_to_name, key)) {
         return ELECTION_TRIBE_ALREADY_EXIST;
     }
 
-    if (mapPut(election->tribe_id_to_name, key, name) == ELECTION_OUT_OF_MEMORY) {
+    if (mapPut(election->tribe_id_to_name, key, tribe_name) == ELECTION_OUT_OF_MEMORY) {
         CRASH(election);
     }
     free(key);
@@ -107,7 +107,7 @@ const char *electionGetTribeName(Election election, int tribe_id) {
     if (!election || !tribe_id) {
         return NULL;
     }
-    char *key = intToString(id);
+    char *key = intToString(tribe_id);
     CHECK_NULL_CRASH(election, key);
     const char *name = mapGet(election->tribe_id_to_name, key);
     free(key);
@@ -199,7 +199,7 @@ static ElectionResult electionAddRemoveVotes(Election election, int area_id, int
         return ELECTION_INVALID_ID;
     }
 
-    char *key = intToString(id);
+    char *key = intToString(tribe_id);
     CHECK_NULL_CRASH(election, key);
 
     if (!mapContains(election->tribe_id_to_name, key)) {

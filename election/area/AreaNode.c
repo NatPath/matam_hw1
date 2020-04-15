@@ -97,7 +97,7 @@ AreaNodeResult areaNodeChangeVotes(AreaNode Area_list,int area_id,int tribe_id,i
     if (!area_to_change){
         return AREA_DOES_NOT_EXIST;
     }
-    MapResult res=areaChangeVote(areaNodeGetArea(area_to_change),tribe_id,votes_change){
+    MapResult res=areaChangeVote(areaNodeGetArea(area_to_change),tribe_id,votes_change));
     if (res!=MAP_SUCCESS){
         return AREA_MAP_ERROR;
     }
