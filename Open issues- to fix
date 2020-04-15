@@ -1,0 +1,1 @@
+we have a const problem.. turns out const char* and char* are too different. 
