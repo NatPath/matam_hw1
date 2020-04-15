@@ -1,7 +1,9 @@
 #include "area.h"
 #include <string.h>
-#include "../../ex1/mtm_map/map.h"
-#include "../../election/string_utilities/string_utils.h"
+#include "map.h"
+#include "string_utils.h"
+#include <assert.h>
+#include <stdlib.h>
 
 #define CHECK_NULL(parameter) \
 if(!parameter) {\
@@ -13,7 +15,7 @@ struct area_t{
     int id;
     char* name;
     Map ballot;
-} ;
+};
 
 Area areaCreate(int id,char *name){
     Area new_area = malloc(sizeof(*new_area));
@@ -26,14 +28,12 @@ Area areaCreate(int id,char *name){
 }
 
 void areaDestroy(Area to_destroy){
-    CHECK_NULL(to_destroy);
     mapDestroy(to_destroy->ballot);
     free(to_destroy->name);
     free(to_destroy);
 }
 
 int areaGetAreaId(Area area){
-    CHECK_NULL(area);
     return area->id;
 }
 

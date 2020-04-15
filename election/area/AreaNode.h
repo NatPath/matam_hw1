@@ -3,7 +3,15 @@
 #include "map.h"
 #include "area.h"
 
-typedef struct AreaNode_t *AreaNode ;
+/*
+typedef struct AreaNode_t{
+    Area area;
+    struct Areanode_t *next;
+}*AreaNode;
+*/
+
+typedef struct AreaNode_t *AreaNode;
+
 
 typedef enum areaNodeResult_t{
     AREA_SUCCESS,
@@ -45,7 +53,7 @@ AreaNode areaNodeGetNext(AreaNode node);
  * @return 
  *      The area the node represents
  * */
-Area areaNodeGetArea(AreaNode node){
+Area areaNodeGetArea(AreaNode node);
 
 
 /**
@@ -96,8 +104,8 @@ AreaNodeResult areaNodeSearchAndDestroy(AreaNode area_list,int area_id);
  * @param tribe_id- The tribe which we want to change the votes of
  * @param num_of_votes- The number of votes we want to add(can be negative)
  * */
-void areaNodeChangeVotes(AreaNode area_list,int area_id, int tribe_id, int num_of_votes);
+AreaNodeResult areaNodeChangeVotes(AreaNode area_list,int area_id, int tribe_id, int num_of_votes);
 
 
 
-#endif AREA_H_
+#endif 

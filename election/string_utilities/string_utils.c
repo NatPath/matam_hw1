@@ -17,6 +17,9 @@ static int numOfDigits(int num){
     return num;
 }
 int stringToInt(char* string){
+    if(!string){
+        return 0;
+    }
     return atoi(string);
 }
 
