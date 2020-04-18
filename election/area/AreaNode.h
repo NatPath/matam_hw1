@@ -1,6 +1,6 @@
 #ifndef AREA_NODE_H_
 #define AREA_NODE_H_
-#include "map.h"
+#include "../map/map.h"
 #include "area.h"
 
 /*
@@ -26,7 +26,7 @@ typedef enum areaNodeResult_t{
  * 
  * 
  * */
-AreaNode areaNodeCreate(int area_id,char* area_name);
+AreaNode areaNodeCreate(int area_id,const char* area_name);
 
 /** areaNodeAdd: Creates a new node and connects it in the beginning of the node_list given.
  * @param node_list - The nodes to which we connect the new node
@@ -37,7 +37,7 @@ AreaNode areaNodeCreate(int area_id,char* area_name);
  *        The node created
  *        NULL if a memory error has accured somewhere #FISHY
  * */
-AreaNode areaNodeAdd(AreaNode node_list,int area_id,char *area_name);
+AreaNode areaNodeAdd(AreaNode node_list,int area_id,const char *area_name);
 
 /**
  * areaNodeGetNext: returns the next node in the list

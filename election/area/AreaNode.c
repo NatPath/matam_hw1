@@ -1,9 +1,8 @@
 #include "AreaNode.h"
 #include "area.h"
-#include "map.h"
+#include "../map/map.h"
 #include <stdlib.h>
-#include <stdio.h>
-#include "string_utils.h"
+
 
 //a macro for checking null of a parameter and returning null if so
 #define CHECK_NULL(parameter) \
@@ -19,7 +18,7 @@ struct AreaNode_t{
 
 
 
-AreaNode areaNodeCreate(int area_id,char* area_name){
+AreaNode areaNodeCreate(int area_id,const char* area_name){
     AreaNode new_node = malloc(sizeof(*new_node));
     CHECK_NULL(new_node);
     new_node->area=areaCreate(area_id,area_name);
@@ -28,7 +27,7 @@ AreaNode areaNodeCreate(int area_id,char* area_name){
     return new_node;
 }
 
-AreaNode AreaNodeAdd(AreaNode previous,int area_id,char *area_name){
+AreaNode AreaNodeAdd(AreaNode previous,int area_id,const char *area_name){
     AreaNode new_node=areaNodeCreate(area_id,area_name);
     new_node->next=previous;
     return new_node;

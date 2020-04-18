@@ -1,6 +1,6 @@
 #ifndef AREA_H_
 #define AREA_H_
-#include "map.h"
+#include "../map/map.h"
 
 typedef struct area_t *Area;
 
@@ -13,7 +13,7 @@ typedef struct area_t *Area;
  *      NULL if an error accured
  * 
  * */
-Area areaCreate(int area_id,char* area_name);
+Area areaCreate(int area_id,const char* area_name);
 
 /**
  * areaDestroy: free all allocated memory of given Area

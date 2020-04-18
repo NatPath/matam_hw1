@@ -1,8 +1,10 @@
 #include "election.h"
-#include "map.h"
-#include "AreaNode.h"
-#include "area.h"
+#include "map/map.h"
+#include "area\AreaNode.h"
+#include "area\area.h"
+#include "string_utilities\string_utils.h"
 #include <string.h>
+#include <stdlib.h>
 
 #define CRASH(election) electionDestroy(election);\
 return ELECTION_OUT_OF_MEMORY; (void)0
@@ -58,7 +60,7 @@ static ElectionResult electionCheckIdentifierArgs(Election election, int id, con
         return ELECTION_INVALID_ID;
     }
 
-    if (!lowerCaseAndSpacesOnly(name))){
+    if (!lowerCaseAndSpacesOnly(name)){
         return ELECTION_INVALID_NAME;
     }
 
@@ -78,7 +80,7 @@ ElectionResult electionAddTribe(Election election, int tribe_id, const char *tri
         return ELECTION_TRIBE_ALREADY_EXIST;
     }
 
-    if (mapPut(election->tribe_id_to_name, key, tribe_name) == ELECTION_OUT_OF_MEMORY) {
+    if (mapPut(election->tribe_id_to_name, key, tribe_name) == MAP_OUT_OF_MEMORY) {
         CRASH(election);
     }
     free(key);
@@ -95,7 +97,7 @@ ElectionResult electionAddArea(Election election, int area_id, const char *area_
         return ELECTION_AREA_ALREADY_EXIST;
     }
 
-    AreaNode new_areas = areaNodeAddArea(election->areas, area_id, area_name);
+    AreaNode new_areas = areaNodeAdd(election->areas, area_id, area_name);
     CHECK_NULL_CRASH(election, new_areas);
     election->areas = new_areas;
 
@@ -103,7 +105,7 @@ ElectionResult electionAddArea(Election election, int area_id, const char *area_
 }
 
 
-const char *electionGetTribeName(Election election, int tribe_id) {
+   char* electionGetTribeName(Election election, int tribe_id) {
     if (!election || !tribe_id) {
         return NULL;
     }
@@ -111,7 +113,10 @@ const char *electionGetTribeName(Election election, int tribe_id) {
     CHECK_NULL_CRASH(election, key);
     const char *name = mapGet(election->tribe_id_to_name, key);
     free(key);
-    return name;
+
+    char* name_copy = initializeAndCopy(name_copy,key);
+    CHECK_NULL_CRASH(election,name_copy);
+    return name_copy;
 }
 
 ElectionResult electionSetTribeName(Election election, int tribe_id, const char *tribe_name) {
@@ -163,7 +168,7 @@ ElectionResult electionRemoveAreas(Election election, AreaConditionFunction shou
     int area_id;
     while (iterator) {
         area = areaNodeGetArea(iterator);
-        area_id = areaGetId(area);
+        area_id = areaGetAreaId(area);
         if (should_delete_area(area_id)) {
             areaNodeSearchAndDestroy(iterator,area_id);
         }
@@ -172,24 +177,6 @@ ElectionResult electionRemoveAreas(Election election, AreaConditionFunction shou
 
     return ELECTION_SUCCESS;
 }
-
-ElectionResult electionAddVote(Election election, int area_id, int tribe_id, int num_of_votes) {
-    if (num_of_votes <= 0) {
-        return ELECTION_INVALID_VOTES;
-    }
-
-    return electionAddRemoveVotes(election,area_id,tribe_id,num_of_votes);
-}
-
-ElectionResult electionRemoveVote(Election election, int area_id, int tribe_id, int num_of_votes){
-    if (num_of_votes <= 0) {
-        return ELECTION_INVALID_VOTES;
-    }
-
-    return electionAddRemoveVotes(election,area_id,tribe_id,num_of_votes * (-1));
-}
-
-
 static ElectionResult electionAddRemoveVotes(Election election, int area_id, int tribe_id, int num_of_votes) {
     if (!election) {
         return ELECTION_NULL_ARGUMENT;
@@ -217,6 +204,25 @@ static ElectionResult electionAddRemoveVotes(Election election, int area_id, int
 
 }
 
+ElectionResult electionAddVote(Election election, int area_id, int tribe_id, int num_of_votes) {
+    if (num_of_votes <= 0) {
+        return ELECTION_INVALID_VOTES;
+    }
+
+    return electionAddRemoveVotes(election,area_id,tribe_id,num_of_votes);
+}
+
+ElectionResult electionRemoveVote(Election election, int area_id, int tribe_id, int num_of_votes){
+    if (num_of_votes <= 0) {
+        return ELECTION_INVALID_VOTES;
+    }
+
+    return electionAddRemoveVotes(election,area_id,tribe_id,num_of_votes * (-1));
+}
+
+
+
+
 Map electionComputeAreasToTribesMapping (Election election){
     Map result_map = mapCreate();
     if(election) {
@@ -226,8 +232,8 @@ Map electionComputeAreasToTribesMapping (Election election){
         Area area;
         MapResult put_result;
         while (iterator) {
-            area = areaNodeGetNext(iterator);
-            area_id = areaGetId(area);
+            area = areaNodeGetArea(iterator);
+            area_id = areaGetAreaId(area);
             winning_tribe = areaGetWinningTribe(area);
             char *key = intToString(area_id);
             CHECK_NULL(key);

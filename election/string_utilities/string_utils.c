@@ -31,7 +31,7 @@ char* intToString(int num){
     return res;
 }
 
-bool lowerCaseAndSpacesOnly(char* string){
+bool lowerCaseAndSpacesOnly(const char* string){
     while(*string){
         if(!SMALL_LETTERS_ASCI(*string)&&!((int)*string==SPACE_ASCI)){
             return false;
@@ -39,6 +39,15 @@ bool lowerCaseAndSpacesOnly(char* string){
         *string++;
     }
     return true;
+}
+
+char* initializeAndCopy(char* destination, const char* source){
+    destination = malloc(strlen(source)+1);
+    if(!destination){
+        return NULL;
+    }
+    strcpy(destination,source);
+    return destination;
 }
 /*
 int main(){
