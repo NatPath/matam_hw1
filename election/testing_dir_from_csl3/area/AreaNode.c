@@ -114,7 +114,7 @@ AreaNodeResult areaNodeSearchAndDestroy(AreaNode area_list,int area_id){
         previous->next=to_destroy->next;
     }
     else{
-        areaNodeDestroyHead(to_destroy,to_destroy->next);
+        return areaNodeDestroyHead(to_destroy,to_destroy->next);
     }
     areaNodeDestroySingle(to_destroy);
     return AREA_SUCCESS;
