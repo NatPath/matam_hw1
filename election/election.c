@@ -23,12 +23,6 @@ struct election_t {
     AreaNode areas;
 };
 
-//signals whether we want to use the tribe or area for their similar functions
-typedef enum TribeOrArea_t {
-    USE_TRIBE,
-    USE_AREA
-} TribeOrArea;
-
 
 Election electionCreate() {
     Election new_election = malloc(sizeof(*new_election));
