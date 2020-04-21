@@ -8,7 +8,9 @@ int stringToInt(char* string);
 //gets an int, returns a string
 char* intToString(int num);
 
-bool lowerCaseAndSpacesOnly(char* string);
+bool lowerCaseAndSpacesOnly(const char* string);
 
+// initializes destination to the proper size and copies source into it
+char* initializeAndCopy(char* destination, const char* source);
 
 #endif

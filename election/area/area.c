@@ -1,7 +1,7 @@
 #include "area.h"
 #include <string.h>
-#include "map.h"
-#include "string_utils.h"
+#include "../map/map.h"
+#include "../string_utilities\string_utils.h"
 #include <assert.h>
 #include <stdlib.h>
 
@@ -17,7 +17,7 @@ struct area_t{
     Map ballot;
 };
 
-Area areaCreate(int id,char *name){
+Area areaCreate(int id,const char *name){
     Area new_area = malloc(sizeof(*new_area));
     CHECK_NULL(new_area);
     new_area->id = id;
