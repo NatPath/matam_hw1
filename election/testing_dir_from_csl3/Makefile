@@ -6,7 +6,7 @@ COMP_FLAG= -std=c99 -Wall -Werror -pedantic-errors -c -Iinclude
 OBJS=election.o area.o AreaNode.o string_utils.o electionTestsExample.o
 
 $(EXEC): $(OBJS)
-	$(CC) $(DEBUG_FLAG) $(OBJS) -o $@ -L. -l:map/libmap.a 
+	$(CC) $(DEBUG_FLAG) $(OBJS) -o $@ -L. -lmap
 
 election.o: election.c include/election.h include/map.h include/AreaNode.h include/area.h include/string_utils.h
 	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $*.c

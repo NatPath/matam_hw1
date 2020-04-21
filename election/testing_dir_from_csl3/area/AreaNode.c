@@ -70,9 +70,7 @@ AreaNode areaNodeFind(AreaNode node,int area_id,AreaNode* previous){
             }
             return node;
         }
-        if(previous){
-            *previous=node;
-        }
+        previous_res=node;
         node=node->next;
     }
     return NULL;
@@ -80,6 +78,30 @@ AreaNode areaNodeFind(AreaNode node,int area_id,AreaNode* previous){
 
 AreaNode areaNodeFindById(AreaNode area_list,int area_id){
     return areaNodeFind(area_list,area_id,NULL);
+}
+
+//Copies source fields to dest fields, destroys source
+static AreaNodeResult areaNodeCopy(AreaNode dest ,AreaNode source){
+    if(!source){
+        return AREA_DOES_NOT_EXIST;
+    }
+    dest->area=source->area;
+    dest->next=source->next;
+    return AREA_SUCCESS;
+}
+
+//making new_head the head of the list while freeing the memory of head
+static AreaNodeResult areaNodeDestroyHead(AreaNode head, AreaNode new_head){
+    areaDestroy(head->area);
+    AreaNodeResult res=areaNodeCopy(head,new_head);
+    if (res==AREA_SUCCESS){
+        free(new_head);//a little ambitious.. but I can explain
+        return AREA_SUCCESS;
+    }
+    else{
+        free(head);
+        return AREA_SUCCESS;
+    }
 }
 
 AreaNodeResult areaNodeSearchAndDestroy(AreaNode area_list,int area_id){
@@ -90,7 +112,9 @@ AreaNodeResult areaNodeSearchAndDestroy(AreaNode area_list,int area_id){
     }
     if (previous){//previous can be NULL if the node searched is the first in the list
         previous->next=to_destroy->next;
-
+    }
+    else{
+        areaNodeDestroyHead(to_destroy,to_destroy->next);
     }
     areaNodeDestroySingle(to_destroy);
     return AREA_SUCCESS;

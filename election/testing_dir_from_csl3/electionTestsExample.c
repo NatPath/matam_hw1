@@ -6,7 +6,7 @@
 #define NUMBER_TESTS 1
 
 bool deleteOnlyFirstArea (int area_id) {
-	return area_id == 1;
+	return area_id == 2;
 }
 
 bool testElectionRemoveAreas() {

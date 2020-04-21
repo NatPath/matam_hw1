@@ -171,7 +171,7 @@ ElectionResult electionRemoveAreas(Election election, AreaConditionFunction shou
         area = areaNodeGetArea(iterator);
         area_id = areaGetAreaId(area);
         if (should_delete_area(area_id)) {
-            areaNodeSearchAndDestroy(iterator,area_id);
+            areaNodeSearchAndDestroy(election->areas,area_id);
         }
         iterator = areaNodeGetNext(iterator);
     }

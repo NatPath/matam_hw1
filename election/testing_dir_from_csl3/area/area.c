@@ -5,6 +5,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include <stdio.h>
+
 #define CHECK_NULL(parameter) \
 if(!parameter) {\
     return NULL; \
@@ -17,17 +19,30 @@ struct area_t{
     Map ballot;
 };
 
+//debug functions
+
+void areaPrint(Area area){
+    printf("Printing area details:\n");
+    printf("area name: %s\n", area->name);
+    printf("area id is %d\n",area->id);
+    //printf("ballot is ",area->ballot);
+    
+}
+
+//
+
 Area areaCreate(int id,const char *name){
     Area new_area = malloc(sizeof(*new_area));
     CHECK_NULL(new_area);
     new_area->id = id;
-    initializeAndCopy(new_area->name,name);
+    new_area->name=initializeAndCopy(new_area->name,name);
     new_area->ballot=mapCreate();
     CHECK_NULL(new_area->ballot);
     return new_area;
 }
 
 void areaDestroy(Area to_destroy){
+    areaPrint(to_destroy);
     mapDestroy(to_destroy->ballot);
     free(to_destroy->name);
     free(to_destroy);
@@ -113,6 +128,10 @@ char* areaGetWinningTribe(Area area){
     return intToString(min);
 
 }
+
+/*
+DEBUG FUNCTIONS
+*/
 
 
 
