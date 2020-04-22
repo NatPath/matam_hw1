@@ -95,8 +95,9 @@ static int findMaxVotes(Map map,char **winners){
             if (num>max){
                 winner_count=0;
             }
-            winner_count++;
+            
             winners[winner_count]=tribe;
+            winner_count++;
             max=num;
         }
     }
