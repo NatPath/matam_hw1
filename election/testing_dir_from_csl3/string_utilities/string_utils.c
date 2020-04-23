@@ -9,12 +9,16 @@
 #define SPACE_ASCI 32
 #define SMALL_LETTERS_ASCI(letter) ((int)letter>=SMALL_A&&(int)letter<=SMALL_Z)
 static int numOfDigits(int num){
+    if(num == 0){
+        // 0 still has one digit, although we would not count it normally
+        return 1;
+    }
     int i=0;
     while(num){
         i++;
         num=num/10;
     }
-    return num;
+    return i;
 }
 int stringToInt(char* string){
     if(!string){

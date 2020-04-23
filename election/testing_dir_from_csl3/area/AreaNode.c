@@ -87,20 +87,20 @@ static AreaNodeResult areaNodeCopy(AreaNode dest ,AreaNode source){
     }
     dest->area=source->area;
     dest->next=source->next;
-    return AREA_SUCCESS;
+    return AREA_NODE_SUCCESS;
 }
 
 //making new_head the head of the list while freeing the memory of head
 static AreaNodeResult areaNodeDestroyHead(AreaNode head, AreaNode new_head){
     areaDestroy(head->area);
     AreaNodeResult res=areaNodeCopy(head,new_head);
-    if (res==AREA_SUCCESS){
+    if (res==AREA_NODE_SUCCESS){
         free(new_head);//a little ambitious.. but I can explain
-        return AREA_SUCCESS;
+        return AREA_NODE_SUCCESS;
     }
     else{
         free(head);
-        return AREA_SUCCESS;
+        return AREA_NODE_SUCCESS;
     }
 }
 
@@ -117,7 +117,7 @@ AreaNodeResult areaNodeSearchAndDestroy(AreaNode area_list,int area_id){
         return areaNodeDestroyHead(to_destroy,to_destroy->next);
     }
     areaNodeDestroySingle(to_destroy);
-    return AREA_SUCCESS;
+    return AREA_NODE_SUCCESS;
 }
 
 AreaNodeResult areaNodeChangeVotes(AreaNode Area_list,int area_id,int tribe_id,int votes_change){
@@ -129,7 +129,7 @@ AreaNodeResult areaNodeChangeVotes(AreaNode Area_list,int area_id,int tribe_id,i
     if (res!=MAP_SUCCESS){
         return AREA_MAP_ERROR;
     }
-    return AREA_SUCCESS;
+    return AREA_NODE_SUCCESS;
 }
 
 /*

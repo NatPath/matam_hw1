@@ -75,7 +75,10 @@ MapResult areaChangeVotes(Area area,int tribe_id, int votes_change){
     sum=sum<0?0:sum;//handles removing also
     char* sum_string=intToString(sum);
 
-    return mapPut(map, tribe_id_string,sum_string);
+    MapResult result =  mapPut(map, tribe_id_string,sum_string);
+    free(tribe_id_string);
+    free(sum_string);
+    return result; 
 }
 
 /**
@@ -95,7 +98,6 @@ static int findMaxVotes(Map map,char **winners){
             if (num>max){
                 winner_count=0;
             }
-            
             winners[winner_count]=tribe;
             winner_count++;
             max=num;

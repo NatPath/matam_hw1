@@ -14,7 +14,7 @@ typedef struct AreaNode_t *AreaNode;
 
 
 typedef enum areaNodeResult_t{
-    AREA_SUCCESS,
+    AREA_NODE_SUCCESS,
     AREA_DOES_NOT_EXIST,
     AREA_MAP_ERROR
 } AreaNodeResult;
