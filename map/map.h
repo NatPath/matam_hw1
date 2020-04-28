@@ -191,7 +191,10 @@ MapResult mapClear(Map map);
         iterator ;\
         iterator = mapGetNext(map))
 
+
 void printMap(Map map);
+
+
 #endif /* MAP_H_ */
 
 

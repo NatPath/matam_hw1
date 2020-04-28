@@ -1,3 +1,4 @@
+#include "pair.h"
 #include "pairnode.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,49 +12,37 @@ if(!parameter) {\
 }\
 (void)0
 
-PairNode createPairNode(const char *key,const char* data){
+
+//PairNode createPairNode(const char *key,const char* data){
+PairNode createPairNode(Pair pair){
     PairNode new_node=malloc(sizeof(*new_node));
     CHECK_NULL(new_node);
-    new_node->key=malloc(sizeof(char)*strlen(key)+1);
-    CHECK_NULL(new_node->key);
-    new_node->data=malloc(sizeof(char)*strlen(data)+1);
-    CHECK_NULL(new_node->data);
 
-    strcpy(new_node->key,key);
-    strcpy(new_node->data,data);
+    //new_node->pair=createPair(key,data);
+    new_node->pair=pair;
     new_node->next=NULL;
+
     return new_node;
 }
-char* getKeyPairNode(PairNode node){
-    CHECK_NULL(node);
-    return node->key;
-}
-char* getDataPairNode(PairNode node){
-    CHECK_NULL(node);
-    return node->data;
+
+Pair getPairPairNode(PairNode node){
+    return node->pair;
 }
 
 PairNode getNextPairNode(PairNode node){
     CHECK_NULL(node);
     return node->next;
 }
+
 void setNextPairNode(PairNode node,PairNode next){
     node->next=next;
 }
 
-void setDataPairNode(PairNode node,const char* data){
-    assert(node);
-    assert(node->data);
-    free(node->data);
-    node->data=malloc(sizeof(char)*strlen(data)+1);
-    strcpy(node->data,data);
-}
 
-void freePairNode(PairNode node){
-    assert(node);
-    free(node->key);
-    free(node->data);
-    free(node);
+void freePairNode(PairNode to_free){
+    assert(to_free);
+    destroyPair(to_free->pair);
+    free(to_free);
 }
 
 void destroyPairNode(PairNode to_destroy){
@@ -63,6 +52,7 @@ void destroyPairNode(PairNode to_destroy){
         to_destroy=next;
     }
 }
+
 PairNode getLastPairNode(PairNode node){
     CHECK_NULL(node);
     while (node->next){
@@ -70,13 +60,20 @@ PairNode getLastPairNode(PairNode node){
     }
     return node;
 }
+
 PairNode copyPairNode(PairNode to_copy){
-    PairNode dummy=createPairNode("foo","bar");
+    Pair dummy_pair=createPair("foo","bar");
+    CHECK_NULL(dummy_pair);
+    PairNode dummy=createPairNode(dummy_pair);
     CHECK_NULL(dummy);
     PairNode head=dummy;
     while(to_copy){
-        dummy->next=createPairNode(getKeyPairNode(to_copy),getDataPairNode(to_copy));
+        Pair temp=copyPair(to_copy->pair);
+        CHECK_NULL(temp);
+
+        dummy->next=createPairNode(temp);
         CHECK_NULL(dummy->next);
+
         dummy=dummy->next;
         to_copy=to_copy->next;
     }
@@ -91,7 +88,34 @@ PairNode copyPairNode(PairNode to_copy){
 void printPairNode(PairNode to_print){
     puts("Printing PairNode...\n");
     while(to_print){
-        printf("key: %s , data: %s\n",to_print->key,to_print->data);
+        printPair(to_print->pair);
         to_print=to_print->next;
     }
 }
+
+/**
+ * Functions Graveyard
+ **/
+
+/*
+
+// functionality of pair
+//added to pair
+char* getKeyPairNode(PairNode node){
+    CHECK_NULL(node);
+    return node->key;
+}
+
+char* getDataPairNode(PairNode node){
+    CHECK_NULL(node);
+    return node->data;
+}
+void setDataPairNode(PairNode node,const char* data){
+    assert(node);
+    assert(node->data);
+    free(node->data);
+    node->data=malloc(sizeof(char)*strlen(data)+1);
+    strcpy(node->data,data);
+}
+
+*/

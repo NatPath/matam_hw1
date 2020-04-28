@@ -116,12 +116,17 @@ static int findMaxVotes(Map map,char **winners){
 char* areaGetWinningTribe(Area area){
     Map map=area->ballot;
     int map_size=mapGetSize(map);
+
+    if (map_size==0){ // if there are no votes to any tribe in the area
+        return intToString(-1);
+    }
     char** winners=malloc(sizeof(*winners)*map_size);
     CHECK_NULL(winners);
     int winner_count=findMaxVotes(map,winners);
 
     //checks for lowest id between winners
     int min= stringToInt(winners[0]);
+
     for(int i=0;i<winner_count;i++){
         int current_id=stringToInt(winners[i]);
         min=current_id<min?current_id:min;
