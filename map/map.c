@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <stdio.h>
+
 #include <assert.h>
 
 struct Map_t{
@@ -111,6 +113,9 @@ MapResult mapPut(Map map, const char* key,const char* data){
 
 //NEW
 char* mapGet(Map map,const char* key){
+    if(!map||!key){
+        return NULL;
+    }
     PairNode res=mapFind(map,key,NULL);
     if (res){
         return getDataPair(getPairPairNode(res));
@@ -130,7 +135,7 @@ MapResult mapRemove(Map map, const char* key){
     }
     PairNode next_node=getNextPairNode(res);
 
-    if (!previous){// meaning that res is the first PairNode in the list
+    if (previous==NULL){// meaning that res is the first PairNode in the list
         map->head=next_node;
     }
     else{
@@ -176,17 +181,25 @@ MapResult mapClear(Map map){
 }
 
 static PairNode mapFind(Map map,const char* key,PairNode *previous){
+    if(!mapGetSize(map)){
+        if(previous){
+            *previous=NULL;
+        }
+        return NULL;
+    }
     PairNode *pointer=&(map->head);
-    PairNode *previous_res=NULL;
+    PairNode previous_res=NULL;
     PairNode next_node;
     while(*pointer){
-        if (strcmp(getKeyPair(getPairPairNode(*pointer)),key) == 0){
+        Pair current_pair=getPairPairNode(*pointer);
+        char* current_key=getKeyPair(current_pair);
+        if (strcmp(current_key,key) == 0){
            if (previous){
-                *previous=*previous_res;
+                *previous=previous_res;
             }
             return *pointer;         
         }
-        previous_res=pointer;
+        previous_res=*pointer;
         next_node = getNextPairNode(*pointer);
         pointer=&(next_node);
 
