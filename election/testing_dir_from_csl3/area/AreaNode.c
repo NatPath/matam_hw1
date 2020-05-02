@@ -5,6 +5,8 @@
 
 #include <assert.h>
 
+#include <stdio.h>
+
 
 //a macro for checking null of a parameter and returning null if so
 #define CHECK_NULL(parameter) \
@@ -44,6 +46,9 @@ AreaNode areaNodeGetNext(AreaNode area){
     CHECK_NULL(area);
     return area->next;
 }
+void areaNodeSetNext(AreaNode node,AreaNode next){
+    node->next=next;
+}
 
 
 
@@ -80,48 +85,24 @@ AreaNode areaNodeFindById(AreaNode area_list,int area_id){
     return areaNodeFind(area_list,area_id,NULL);
 }
 
-//Copies source fields to dest fields, destroys source
-static AreaNodeResult areaNodeCopy(AreaNode dest ,AreaNode source){
-    if(!source){
-        return AREA_DOES_NOT_EXIST;
-    }
-    dest->area=source->area;
-    dest->next=source->next;
-    return AREA_NODE_SUCCESS;
-}
-
-//making new_head the head of the list while freeing the memory of head
-static AreaNodeResult areaNodeDestroyHead(AreaNode head, AreaNode new_head){
-    areaDestroy(head->area);
-    AreaNodeResult res=areaNodeCopy(head,new_head);
-    if (res==AREA_NODE_SUCCESS){
-        free(new_head);//a little ambitious.. but I can explain
-        return AREA_NODE_SUCCESS;
-    }
-    else{
-        free(head);
-        return AREA_NODE_SUCCESS;
-    }
-}
-
 AreaNodeResult areaNodeSearchAndDestroy(AreaNode area_list,int area_id){
-    AreaNode previous;
-    AreaNode to_destroy= areaNodeFind(area_list,area_id,&previous);
+    AreaNode previous;//will hold the value of the previous node to the one found
+    AreaNode to_destroy= areaNodeFind(area_list->next,area_id,&previous);
     if (!to_destroy){
         return AREA_DOES_NOT_EXIST;
     }
-    if (previous){//previous can be NULL if the node searched is the first in the list
+    if (previous){
         previous->next=to_destroy->next;
     }
-    else{
-        return areaNodeDestroyHead(to_destroy,to_destroy->next);
+    else{//previous can be NULL if the node searched is the first in the list(without the dummy)
+        area_list->next=to_destroy->next;
     }
     areaNodeDestroySingle(to_destroy);
     return AREA_NODE_SUCCESS;
 }
 
-AreaNodeResult areaNodeChangeVotes(AreaNode Area_list,int area_id,int tribe_id,int votes_change){
-    AreaNode area_to_change=areaNodeFindById(Area_list,area_id);
+AreaNodeResult areaNodeChangeVotes(AreaNode area_list,int area_id,int tribe_id,int votes_change){
+    AreaNode area_to_change=areaNodeFindById(area_list,area_id);
     if (!area_to_change){
         return AREA_DOES_NOT_EXIST;
     }
@@ -210,4 +191,26 @@ MapResult AreaNodeRemoveTribe(AreaNode Area_list,int tribe_id){
     return MAP_SUCCESS;
 }
 
+******BEFORE DUMMY ELEMENT ***********
+//Copies source fields to dest fields
+static AreaNodeResult areaNodeCopy(AreaNode dest ,AreaNode source){
+    if(!source){//source is NULL, meanig no fields to copy from
+        return AREA_DOES_NOT_EXIST;
+    }
+    dest->area=source->area;
+    dest->next=source->next;
+    return AREA_NODE_SUCCESS;
+}
+
+//making new_head the head of the list while freeing the memory of head
+static void areaNodeDestroyHead(AreaNode head, AreaNode new_head){
+    areaDestroy(head->area);
+    AreaNodeResult res=areaNodeCopy(head,new_head);
+    if (res==AREA_NODE_SUCCESS){
+        free(new_head);//the new_head fields are pointed at by head, we no longer need it
+    }
+    else{//we're trying to destroy the only node in the list
+        free(head);
+    }
+}
 */

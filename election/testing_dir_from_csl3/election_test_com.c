@@ -195,7 +195,6 @@ bool raiseHell()
     ASSERT_TEST(electionRemoveAreas(election, deleteAllAreas) == ELECTION_SUCCESS);
     ASSERT_TEST((statistics2 = electionComputeAreasToTribesMapping(election)) != NULL);
 
-    printf("\n****Nativ's DEBUG ****\n- statistics2 size is :%d",mapGetSize(statistics2));
 
     ASSERT_TEST(mapGetFirst(statistics2) == NULL);
     mapDestroy(statistics1);

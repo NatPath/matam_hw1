@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <stdio.h>
+
 #define CRASH(election) electionDestroy(election);\
 return ELECTION_OUT_OF_MEMORY; (void)0
 
@@ -32,7 +34,8 @@ Election electionCreate() {
     new_election->tribe_id_to_name = mapCreate();
     CHECK_NULL(new_election->tribe_id_to_name);
 
-    new_election->areas = NULL;
+    //dummy areas
+    new_election->areas = areaNodeCreate(-1,"dummy holder");
 
     return new_election;
 }
@@ -94,15 +97,15 @@ ElectionResult electionAddArea(Election election, int area_id, const char *area_
         return ELECTION_AREA_ALREADY_EXIST;
     }
 
-    AreaNode new_areas = areaNodeAdd(election->areas, area_id, area_name);
+    AreaNode new_areas = areaNodeAdd(areaNodeGetNext(election->areas), area_id, area_name);
     CHECK_NULL_CRASH(election, new_areas);
-    election->areas = new_areas;
+    areaNodeSetNext(election->areas, new_areas);
 
     return ELECTION_SUCCESS;
 }
 
 
-   char* electionGetTribeName(Election election, int tribe_id) {
+char* electionGetTribeName(Election election, int tribe_id) {
     if (!election) {
         return NULL;
     }
@@ -167,7 +170,7 @@ ElectionResult electionRemoveAreas(Election election, AreaConditionFunction shou
         return ELECTION_NULL_ARGUMENT;
     }
 
-    AreaNode iterator = election->areas;
+    AreaNode iterator = areaNodeGetNext(election->areas);
     Area area;
     int area_id;
     while (iterator) {
@@ -201,11 +204,11 @@ static ElectionResult electionAddRemoveVotes(Election election, int area_id, int
 
     free(key);
 
-    if (!areaNodeFindById(election->areas, area_id)) {
+    if (!areaNodeFindById(areaNodeGetNext(election->areas), area_id)) {
         return ELECTION_AREA_NOT_EXIST;
     }
 
-    areaNodeChangeVotes(election->areas,area_id,tribe_id,num_of_votes);
+    areaNodeChangeVotes(areaNodeGetNext(election->areas),area_id,tribe_id,num_of_votes);
 
     return ELECTION_SUCCESS;
 
@@ -228,12 +231,24 @@ ElectionResult electionRemoveVote(Election election, int area_id, int tribe_id, 
 }
 
 
-
+static int minTribe(Map tribes){
+    int min=stringToInt(mapGetFirst(tribes));
+    MAP_FOREACH(i,tribes){
+        int iterator_id=stringToInt(i);
+        min=min>iterator_id?iterator_id:min;
+    }
+    return min;
+}
 
 Map electionComputeAreasToTribesMapping (Election election){
     Map result_map = mapCreate();
     if(election) {
-        AreaNode iterator = election->areas;
+        if(mapGetSize(election->tribe_id_to_name)==0){
+            return result_map;   
+        }
+        char *min_tribe=intToString(minTribe(election->tribe_id_to_name));
+
+        AreaNode iterator = areaNodeGetNext(election->areas);
         int area_id;
         char *winning_tribe;
         Area area;
@@ -243,19 +258,38 @@ Map electionComputeAreasToTribesMapping (Election election){
             area_id = areaGetAreaId(area);
             winning_tribe = areaGetWinningTribe(area);
             char *key = intToString(area_id);
-
-            CHECK_NULL(key);
-            put_result = mapPut(result_map, key, winning_tribe);
-
+            
+            if(!key){//maybe a macro which gets an array of pointers and frees it?
+                free(result_map);
+                free(winning_tribe);
+                free(min_tribe);
+                return NULL;
+            }
+            //CHECK_NULL(key);
+            if(stringToInt(winning_tribe)==-1){//no tribes at the area, putting the tribe with the lowest id(As guided by the FAQ)
+                put_result =mapPut(result_map,key,min_tribe);
+            }
+            else{
+                put_result = mapPut(result_map, key, winning_tribe);
+            }
             free(key);
             free(winning_tribe);
 
             if ( put_result == MAP_OUT_OF_MEMORY) {
+                free(result_map);
+                free(min_tribe);
                 return NULL;
             }
             iterator = areaNodeGetNext(iterator);
         }
+        free(min_tribe);
     }
+    /*DEBUG PRINT
+    printf("\nResult map printing: \n");
+    MAP_FOREACH(i,result_map){
+        printf("\nkey: %s value: %s",i,mapGet(result_map,i));
+    }
+    */
 
     return result_map;
 }

@@ -3,11 +3,15 @@ CC=gcc
 EXEC=electionExe
 DEBUG_FLAG=-g
 COMP_FLAG= -std=c99 -Wall -Werror -pedantic-errors -c -Iinclude
-#OBJS=election.o area.o AreaNode.o string_utils.o electionTestsExample.o
+
+TESTER=election_test_com
+#Test elections
+OBJS=election.o area.o AreaNode.o string_utils.o $(TESTER).o
+#Test area
 #OBJS=election.o area.o AreaNode.o string_utils.o area_test.o
-OBJS=election.o area.o AreaNode.o string_utils.o areaNode_test.o
+#OBJS=election.o area.o AreaNode.o string_utils.o areaNode_test.o
 $(EXEC): $(OBJS)
-	$(CC) $(DEBUG_FLAG) $(OBJS) -o $@ -L. -lmap
+	$(CC) $(DEBUG_FLAG) $(OBJS) -o $@ -L. -lourmap
 
 election.o: election.c include/election.h include/map.h include/AreaNode.h include/area.h include/string_utils.h
 	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $*.c
@@ -21,7 +25,7 @@ AreaNode.o: area/AreaNode.c include/AreaNode.h include/area.h include/map.h
 string_utils.o: string_utilities/string_utils.c include/string_utils.h
 	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) string_utilities/string_utils.c
 
-electionTestsExample.o: electionTestsExample.c include/election.h include/map.h include/test_utilities.h
+$(TESTER).o: $(TESTER).c include/election.h include/map.h include/test_utilities.h
 	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 area_test.o: area_test.c include/area.h include/test_utilities.h
 	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $*.c

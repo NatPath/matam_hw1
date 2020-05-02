@@ -42,7 +42,6 @@ Area areaCreate(int id,const char *name){
 }
 
 void areaDestroy(Area to_destroy){
-    areaPrint(to_destroy);
     mapDestroy(to_destroy->ballot);
     free(to_destroy->name);
     free(to_destroy);

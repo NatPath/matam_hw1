@@ -48,6 +48,14 @@ AreaNode areaNodeAdd(AreaNode node_list,int area_id,const char *area_name);
 AreaNode areaNodeGetNext(AreaNode node);
 
 /**
+ * areaNodeSetNext: set next node
+ * @param node - The node we set the next of
+ * @param next - The next node
+ * 
+ * */
+void areaNodeSetNext(AreaNode node,AreaNode next);
+
+/**
  * areaNodeGetNext: returns area field of a given node  
  * @param node - a node
  * @return 
