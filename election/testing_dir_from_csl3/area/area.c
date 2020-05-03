@@ -1,4 +1,4 @@
-#include "area.h"
+#include "../include/area.h"
 #include <string.h>
 #include "../include/map.h"
 #include "../include/string_utils.h"
@@ -78,6 +78,10 @@ MapResult areaChangeVotes(Area area,int tribe_id, int votes_change){
     free(tribe_id_string);
     free(sum_string);
     return result; 
+}
+
+void areaRemoveTribe(Area area, char *tribe_id){
+  mapRemove(areaGetBallot(area),tribe_id);
 }
 
 /**

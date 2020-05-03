@@ -161,6 +161,15 @@ ElectionResult electionRemoveTribe(Election election, int tribe_id) {
         free(key);
         return ELECTION_TRIBE_NOT_EXIST;
     }
+
+    AreaNode iterator = areaNodeGetNext(election->areas);
+    Area area;
+    while(iterator){
+        area = areaNodeGetArea(iterator);
+        areaRemoveTribe(area,key);
+        iterator = areaNodeGetNext(iterator);
+    }
+
     free(key);
     return ELECTION_SUCCESS;
 }
