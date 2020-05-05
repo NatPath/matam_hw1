@@ -29,6 +29,8 @@ void destroyPair(Pair to_destroy);
  * getKeyPair: Return the "key" field of the Pair given.
  * 
  * @param pair- The Pair we grab the key of.
+ * @return 
+ *      the actual key string (not a copy of it)
  * 
  * */
 char* getKeyPair(Pair pair);
@@ -37,6 +39,8 @@ char* getKeyPair(Pair pair);
  * getDataPair: Return the "data" field of the Pair given.
  * 
  * @param pair- The Pair we grab the data of.
+ * @return 
+ *      the actual data string (not a copy of it)
  * 
  * */
 char* getDataPair(Pair pair);
@@ -59,7 +63,5 @@ void setDataPair(Pair pair,const char* data);
  * */
 Pair copyPair(Pair to_copy);
 
-//debug functions
-void printPair(Pair to_print);
 
 #endif

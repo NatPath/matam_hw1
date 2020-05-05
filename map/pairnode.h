@@ -7,86 +7,73 @@ typedef struct pairnode_h{
     struct pairnode_h *next;
 }*PairNode;
 
-//Gets a key and a value and returns a single pairnode which holds them together
 /**
- * 
+ * createPairNode: gets a Pair and creates a node holding it
+ * @param pair- the Pair the node created is going to hold
+ * @return 
+ *      the node created
  * 
  * */
-//PairNode createPairNode(const char* key,const char* data);
 PairNode createPairNode(Pair pair);
 
-//Returns the pair holden in the node
 /**
- * 
- * 
+ * getPairPairNode: returns the pair of the node
+ * @param node- the node we want the pair of
+ * @return 
+ *      the pair of the node
  * */
 Pair getPairPairNode(PairNode node);
 
-// gets a node, returns the next node linked to it
-/**
- * 
- * 
- * */
+ /**
+  * getNextPairNode: returns the next field of the node
+  * @param node- the node we want the next of
+  * @return 
+  *      the next node
+  * */
 PairNode getNextPairNode(PairNode node);
 
-//gets a, and sets the next node to be "next"
 /**
- * 
+ * setNextPairNode: sets the "next" field of node
+ * @param node - the node we set the next of
+ * @param next - the node to be set as next
  * 
  * */
 void setNextPairNode(PairNode node,PairNode next);
 
-// frees only the specified node
 /**
- * 
+ * freePairNode: free the memory of the node, including the pair it holds
+ * @param node - the node we free the memory of
  * 
  * */
 void freePairNode(PairNode node);
 
-//gets a node(as a head of a list), free the list and all the data it holds. 
 /**
- * 
+ * destroyPairNode: gets a head of a list (of pairs), free the memory of all the elements in it
+ * @param to_destroy : the head of the list we want to destroy
  * 
  * */
 void destroyPairNode(PairNode to_destroy);
 
-//gets a node(as a head of a list), returns the last node in the list. 
 /**
- * 
+ * getLastPairNode: get last pairnode in the list of pairnodes, the first node which its next is null
+ * @param node- the node we start from
+ * @return 
+ *      The first node which doesn't have a node next to it 
  * 
  * */
 PairNode getLastPairNode(PairNode node);
 
-//gets a node(as a head of a list), returns a copy of the list.
 /**
- * 
+ * copyPairNode: return a copy of the list given
+ * @param to_copy- the element we want to return a copy of
+ * @return
+ *      The head of a list identicle to the one given
  * 
  * */
 PairNode copyPairNode(PairNode to_copy);
 
-/*
-    debug functions
-*/
-void printPairNode(PairNode to_print);
 
 
 
 
 #endif
-/**
- * FUNCTIONS GRAVEYARD
- * */
-
-/* 
- ---Before pairnode was split---
-
-//gets a node returns the key it holds
-char* getKeyPairNode(PairNode node);
-
-//gets a node returns the value it holds
-char* getDataPairNode(PairNode node);
-
-//gets a node return the data 
-void setDataPairNode(PairNode node,const char* data);
-
-*/

@@ -3,7 +3,6 @@
 #include <string.h>
 #include <assert.h>
 
-#include <stdio.h>
 
 struct pair_h{
     char* key;
@@ -63,12 +62,6 @@ Pair copyPair(Pair to_copy){
     CHECK_NULL(new_pair);
     return new_pair;
 }
-
-void printPair(Pair to_print){
-
-    printf("key: %s , data: %s\n",to_print->key,to_print->data);
-}
-
 
 
 

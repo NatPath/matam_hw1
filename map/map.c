@@ -4,8 +4,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <stdio.h>
-
 #include <assert.h>
 
 struct Map_t{
@@ -86,7 +84,6 @@ bool mapContains(Map map, const char* key){
     return mapGet(map,key) != NULL;
 }
 
-//NEW
 MapResult mapPut(Map map, const char* key,const char* data){
     
     if(!map || !key || !data)
@@ -111,7 +108,6 @@ MapResult mapPut(Map map, const char* key,const char* data){
     return MAP_SUCCESS;
 }
 
-//NEW
 char* mapGet(Map map,const char* key){
     if(!map||!key){
         return NULL;
@@ -145,7 +141,6 @@ MapResult mapRemove(Map map, const char* key){
     return MAP_SUCCESS;
 }
 
-//NEW
 char* mapGetFirst(Map map){
     if(!map || mapGetSize(map) == 0){
         return NULL;
@@ -206,38 +201,3 @@ static PairNode mapFind(Map map,const char* key,PairNode *previous){
     }
     return NULL;
 }
-
-// debug functions 
-
-void printMap(Map map){
-    printPairNode(map->head);
-}
-
-
-/*****************************************
- ******************OLD FUNCTIONS**********
- *****************************************
- * 
- * */
-/*
-//bugs: copies in reverse, does a segmentation fault
-Map mapCopy_old(Map map){
-    if(!map){
-        return NULL;
-    }
-    Map new_map = mapCreate();
-    if(!new_map){
-        return NULL;
-    }
-    char* key = mapGetFirst(map);
-    mapPut(new_map,key,mapGet(map,key));
-    while(key){
-        key = mapGetNext(map);
-        if(mapPut(new_map,key,mapGet(map,key)) == MAP_OUT_OF_MEMORY){
-            return NULL;
-        }
-         
-    }
-    return new_map;
-}
-*/

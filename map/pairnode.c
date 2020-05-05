@@ -1,8 +1,8 @@
 #include "pair.h"
 #include "pairnode.h"
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
+
 #include <assert.h>
 
 //a macro for checking null of a parameter and returning null if so
@@ -13,12 +13,9 @@ if(!parameter) {\
 (void)0
 
 
-//PairNode createPairNode(const char *key,const char* data){
 PairNode createPairNode(Pair pair){
     PairNode new_node=malloc(sizeof(*new_node));
     CHECK_NULL(new_node);
-
-    //new_node->pair=createPair(key,data);
     new_node->pair=pair;
     new_node->next=NULL;
 
@@ -62,7 +59,7 @@ PairNode getLastPairNode(PairNode node){
 }
 
 PairNode copyPairNode(PairNode to_copy){
-    Pair dummy_pair=createPair("foo","bar");
+    Pair dummy_pair=createPair("foo","bar");// dummy element to hold the head of the list
     CHECK_NULL(dummy_pair);
     PairNode dummy=createPairNode(dummy_pair);
     CHECK_NULL(dummy);
@@ -81,41 +78,3 @@ PairNode copyPairNode(PairNode to_copy){
     freePairNode(head);
     return res;
 }
-
-/*
-    debug zone
-*/
-void printPairNode(PairNode to_print){
-    puts("Printing PairNode...\n");
-    while(to_print){
-        printPair(to_print->pair);
-        to_print=to_print->next;
-    }
-}
-
-/**
- * Functions Graveyard
- **/
-
-/*
-
-// functionality of pair
-//added to pair
-char* getKeyPairNode(PairNode node){
-    CHECK_NULL(node);
-    return node->key;
-}
-
-char* getDataPairNode(PairNode node){
-    CHECK_NULL(node);
-    return node->data;
-}
-void setDataPairNode(PairNode node,const char* data){
-    assert(node);
-    assert(node->data);
-    free(node->data);
-    node->data=malloc(sizeof(char)*strlen(data)+1);
-    strcpy(node->data,data);
-}
-
-*/
