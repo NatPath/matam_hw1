@@ -8,6 +8,7 @@
 #define SMALL_A 97
 #define SPACE_ASCI 32
 #define SMALL_LETTERS_ASCI(letter) ((int)letter>=SMALL_A&&(int)letter<=SMALL_Z)
+
 static int numOfDigits(int num){
     int i=0;
     while(num){
@@ -23,7 +24,6 @@ int stringToInt(char* string){
     return atoi(string);
 }
 
-//gets an int, returns a string
 char* intToString(int num){
     int num_size=numOfDigits(num);
     char *res=malloc(sizeof(char)*num_size+1);
@@ -49,20 +49,3 @@ char* initializeAndCopy(char* destination, const char* source){
     strcpy(destination,source);
     return destination;
 }
-/*
-int main(){
-    int num=2023023;
-    char* s=intToString(num);
-    printf("%s\n",s);
-
-    num=stringToInt(s);
-
-    printf("%d\n",num);
-
-    char *ns="he  l l   o sd   s,d";
-    bool legal=lowerCaseAndSpacesOnly(ns);
-    printf("%d",legal);
-
-    return 0;
-}
-*/

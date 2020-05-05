@@ -13,6 +13,7 @@ return ELECTION_OUT_OF_MEMORY; (void)0
 
 //checks whether the given element is null and returns null if it is.
 #define CHECK_NULL(element) if(!element){return NULL;} (void)0
+
 //checks whether the given element is null. 
 //releases resources and return appropriate result if it is.
 #define CHECK_NULL_CRASH(election, element) \
@@ -20,11 +21,31 @@ if(!element){\
   CRASH(election);\
 } (void)(0)
 
+/*
+#define CHECK_AND_CRASH(election,element,pointers_to_free)\
+CHECK_NULL_CRASH(election,element);\
+free_pointers(pointers_to_free);\
+CRASH(election);\
+(void)(0)
+*/
+
+
 struct election_t {
     Map tribe_id_to_name;
+
+    //A list of areas, points to a dummy node holding the list
     AreaNode areas;
 };
 
+/**
+ * Static functions declerations
+ * */
+//gets an array of pointers and its size, frees all of them
+void free_pointers(void* pointers_to_free[],int size){
+    for(int i=0;i<size;i++){
+        free(pointers_to_free[i]);
+    }
+}
 
 
 Election electionCreate() {
@@ -34,7 +55,7 @@ Election electionCreate() {
     new_election->tribe_id_to_name = mapCreate();
     CHECK_NULL(new_election->tribe_id_to_name);
 
-    //dummy areas
+    //intilizing dummy to hold the list of areas
     new_election->areas = areaNodeCreate(-1,"dummy holder");
 
     return new_election;
@@ -49,6 +70,7 @@ void electionDestroy(Election election) {
     free(election);
 }
 
+//checks for validity of arguments, legal id and name of a new tribe and that election is not NULL
 static ElectionResult electionCheckIdentifierArgs(Election election, int id, const char *name) {
 
     if (!election || !name) {
@@ -194,6 +216,16 @@ ElectionResult electionRemoveAreas(Election election, AreaConditionFunction shou
 
     return ELECTION_SUCCESS;
 }
+/**
+ * electionAddRemoveVotes: Changes the vote count of some tribe in a some area
+ * @param election - The election
+ * @param area_id - The area of the vote 
+ * @param tribe_id - The tribe we change the votes of
+ * @param num_of_votes - The difference in votes to be made ( can be either negative or positive)
+ * @return 
+ *      Election error codes according to a mishap
+ * 
+ * */
 static ElectionResult electionAddRemoveVotes(Election election, int area_id, int tribe_id, int num_of_votes) {
     if (!election) {
         return ELECTION_NULL_ARGUMENT;
@@ -240,6 +272,10 @@ ElectionResult electionRemoveVote(Election election, int area_id, int tribe_id, 
 }
 
 
+/**
+ * minTribe: return the id of the tribe with the lowest id
+ * 
+ * */
 static int minTribe(Map tribes){
     int min=stringToInt(mapGetFirst(tribes));
     MAP_FOREACH(i,tribes){
@@ -248,9 +284,11 @@ static int minTribe(Map tribes){
     }
     return min;
 }
-
+//#define MAX_MALLOCED_IN_FUNCTION 5
 Map electionComputeAreasToTribesMapping (Election election){
+    //void* malloced_items[MAX_MALLOCED_IN_FUNCTION];
     Map result_map = mapCreate();
+    //malloced_items[0]=result_map;
     if(election) {
         if(mapGetSize(election->tribe_id_to_name)==0){
             return result_map;   
@@ -269,12 +307,11 @@ Map electionComputeAreasToTribesMapping (Election election){
             char *key = intToString(area_id);
             
             if(!key){//maybe a macro which gets an array of pointers and frees it?
-                free(result_map);
+                mapDestroy(result_map);
                 free(winning_tribe);
                 free(min_tribe);
                 return NULL;
             }
-            //CHECK_NULL(key);
             if(stringToInt(winning_tribe)==-1){//no tribes at the area, putting the tribe with the lowest id(As guided by the FAQ)
                 put_result =mapPut(result_map,key,min_tribe);
             }
@@ -285,7 +322,7 @@ Map electionComputeAreasToTribesMapping (Election election){
             free(winning_tribe);
 
             if ( put_result == MAP_OUT_OF_MEMORY) {
-                free(result_map);
+                mapDestroy(result_map);
                 free(min_tribe);
                 return NULL;
             }
@@ -293,12 +330,6 @@ Map electionComputeAreasToTribesMapping (Election election){
         }
         free(min_tribe);
     }
-    /*DEBUG PRINT
-    printf("\nResult map printing: \n");
-    MAP_FOREACH(i,result_map){
-        printf("\nkey: %s value: %s",i,mapGet(result_map,i));
-    }
-    */
 
     return result_map;
 }

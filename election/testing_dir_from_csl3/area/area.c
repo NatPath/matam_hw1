@@ -1,7 +1,7 @@
 #include "../include/area.h"
-#include <string.h>
 #include "../include/map.h"
 #include "../include/string_utils.h"
+#include <string.h>
 #include <assert.h>
 #include <stdlib.h>
 
