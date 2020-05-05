@@ -57,6 +57,14 @@ MapResult areaChangeVotes(Area area,int tribe_id,int vote_change);
  *      The id of the tribe with most votes as string
  * */
 char* areaGetWinningTribe(Area area);
+/**
+ * areaRemoveTribe: removes tribe with given id from the ballot of area
+ * @param area - the area we update the ballot of
+ * @param tribe_id- the id of the tribe we are removing from the ballot
+ * 
+ * */
+
+void areaRemoveTribe(Area area, char *tribe_id);
 
 
 

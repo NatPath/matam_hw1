@@ -32,7 +32,7 @@ area_test.o: area_test.c include/area.h include/test_utilities.h
 areaNode_test.o: areaNode_test.c area/area.c area/AreaNode.c include/test_utilities.h include/AreaNode.h
 	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) area/area.c $*.c
 clean:
-	rm -f *.o 
+	-rm -f *.o 
 
 
 
