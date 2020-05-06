@@ -1,6 +1,6 @@
-#include "../include/AreaNode.h"
+#include "AreaNode.h"
 #include "area.h"
-#include "../map/map.h"
+#include "map.h"
 #include <stdlib.h>
 
 #include <assert.h>

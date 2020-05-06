@@ -1,6 +1,6 @@
 #ifndef AREA_NODE_H_
 #define AREA_NODE_H_
-#include "../map/map.h"
+#include "map.h"
 #include "area.h"
 
 typedef struct AreaNode_t *AreaNode;

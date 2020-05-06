@@ -1,8 +1,8 @@
-#include "include/map.h"
-#include "include/election.h"
-#include "include/AreaNode.h"
-#include "include/area.h"
-#include "include/string_utils.h"
+#include "map.h"
+#include "election.h"
+#include "AreaNode.h"
+#include "area.h"
+#include "string_utils.h"
 #include <string.h>
 #include <stdlib.h>
 

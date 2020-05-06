@@ -1,2 +1,6 @@
 build/
 *.o
+map/MapExe
+election/testing_dir_from_csl3/electionExe
+election/testing_dir_from_csl3/electionExe
+submission_zone/electionExe
