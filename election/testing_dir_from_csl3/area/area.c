@@ -121,7 +121,7 @@ char* areaGetWinningTribe(Area area){
     int map_size=mapGetSize(map);
 
     if (map_size==0){ // if there are no votes to any tribe in the area
-        return intToString(-1);
+        return NULL;
     }
     char** winners=malloc(sizeof(*winners)*map_size);
     CHECK_NULL(winners);

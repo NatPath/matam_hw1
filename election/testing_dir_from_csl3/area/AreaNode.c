@@ -1,4 +1,4 @@
-#include "AreaNode.h"
+#include "../include/AreaNode.h"
 #include "area.h"
 #include "../map/map.h"
 #include <stdlib.h>

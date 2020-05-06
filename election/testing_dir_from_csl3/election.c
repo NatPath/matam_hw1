@@ -312,7 +312,7 @@ Map electionComputeAreasToTribesMapping (Election election){
                 free(min_tribe);
                 return NULL;
             }
-            if(stringToInt(winning_tribe)==-1){//no tribes at the area, putting the tribe with the lowest id(As guided by the FAQ)
+            if(!winning_tribe){//no tribes at the area, putting the tribe with the lowest id(As guided by the FAQ)
                 put_result =mapPut(result_map,key,min_tribe);
             }
             else{
