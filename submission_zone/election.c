@@ -70,16 +70,23 @@ static ElectionResult electionCheckIdentifierArgs(Election election, int id, con
 
 ElectionResult electionAddTribe(Election election, int tribe_id, const char *tribe_name) {
     ElectionResult argumentValid = electionCheckIdentifierArgs(election, tribe_id, tribe_name);
-    if (argumentValid != ELECTION_SUCCESS) {
+
+
+    if (argumentValid != ELECTION_SUCCESS && argumentValid != ELECTION_INVALID_NAME) {
         return argumentValid;
     }
 
     char *key = intToString(tribe_id);
     CHECK_NULL_CRASH(election, key);
 
-    if (mapContains(election->tribe_id_to_name, key)) {
+    if (mapContains(election->tribe_id_to_name,key)) {// Reordered return values in case of failures 
         free(key);
         return ELECTION_TRIBE_ALREADY_EXIST;
+    }
+
+    if(argumentValid==ELECTION_INVALID_NAME){
+        free(key);
+        return argumentValid;
     }
 
     if (mapPut(election->tribe_id_to_name, key, tribe_name) == MAP_OUT_OF_MEMORY) {
@@ -92,12 +99,16 @@ ElectionResult electionAddTribe(Election election, int tribe_id, const char *tri
 
 ElectionResult electionAddArea(Election election, int area_id, const char *area_name) {
     ElectionResult argumentValid = electionCheckIdentifierArgs(election, area_id, area_name);
-    if (argumentValid != ELECTION_SUCCESS) {
+    if (argumentValid != ELECTION_SUCCESS && argumentValid != ELECTION_INVALID_NAME) {
         return argumentValid;
     }
 
     if (areaNodeFindById(election->areas, area_id)) {
         return ELECTION_AREA_ALREADY_EXIST;
+    }
+
+    if (argumentValid == ELECTION_INVALID_NAME){// Reordered return values in case of failures 
+        return argumentValid;
     }
 
     AreaNode new_areas = areaNodeAdd(areaNodeGetNext(election->areas), area_id, area_name);
@@ -109,7 +120,7 @@ ElectionResult electionAddArea(Election election, int area_id, const char *area_
 
 
 char* electionGetTribeName(Election election, int tribe_id) {
-    if (!election) {
+    if (!election || tribe_id<0) {
         return NULL;
     }
     char *key = intToString(tribe_id);
@@ -128,7 +139,7 @@ char* electionGetTribeName(Election election, int tribe_id) {
 
 ElectionResult electionSetTribeName(Election election, int tribe_id, const char *tribe_name) {
     ElectionResult argumentValid = electionCheckIdentifierArgs(election, tribe_id, tribe_name);
-    if (argumentValid != ELECTION_SUCCESS) {
+    if (argumentValid != ELECTION_SUCCESS && argumentValid != ELECTION_INVALID_NAME) {
         return argumentValid;
     }
 
@@ -138,6 +149,11 @@ ElectionResult electionSetTribeName(Election election, int tribe_id, const char 
     if (!mapContains(election->tribe_id_to_name, key)) {
         free(key);
         return ELECTION_TRIBE_NOT_EXIST;
+    }
+
+    if (argumentValid == ELECTION_INVALID_NAME){ // Reordered return values in case of failures 
+        free(key);
+        return argumentValid;
     }
 
     if (mapPut(election->tribe_id_to_name, key, tribe_name) == MAP_OUT_OF_MEMORY) {
@@ -204,20 +220,21 @@ ElectionResult electionRemoveAreas(Election election, AreaConditionFunction shou
  * @param tribe_id - The tribe we change the votes of
  * @param num_of_votes - The difference in votes to be made ( can be either negative or positive)
  * @return 
- *      Election error codes according to a mishap
+ *      ELECTION_SUCCESS if vote is valid and went well
+ *      Election error codes according to a mishap in memory allocation or area/tribe does not exists
  * 
  * */
 static ElectionResult electionAddRemoveVotes(Election election, int area_id, int tribe_id, int num_of_votes) {
-    if (!election) {
-        return ELECTION_NULL_ARGUMENT;
-    }
-
-    if (area_id < 0 || tribe_id < 0) {
-        return ELECTION_INVALID_ID;
-    }
 
     char *key = intToString(tribe_id);
     CHECK_NULL_CRASH(election, key);
+
+    AreaNode area_to_change=areaNodeFindById(election->areas,area_id);
+
+    if (!area_to_change) {
+        free(key);
+        return ELECTION_AREA_NOT_EXIST;
+    }
 
     if (!mapContains(election->tribe_id_to_name, key)) {
         free(key);
@@ -226,14 +243,10 @@ static ElectionResult electionAddRemoveVotes(Election election, int area_id, int
 
     free(key);
 
-    AreaNode area_to_change=areaNodeFindById(election->areas,area_id);
-
-    if (!area_to_change) {
-        return ELECTION_AREA_NOT_EXIST;
-    }
 
     MapResult change_result=areaChangeVotes(areaNodeGetArea(area_to_change),tribe_id,num_of_votes);
     if(change_result!=MAP_SUCCESS){
+        free(key);
         return ELECTION_OUT_OF_MEMORY;
     }
 
@@ -241,17 +254,42 @@ static ElectionResult electionAddRemoveVotes(Election election, int area_id, int
 
 }
 
-ElectionResult electionAddVote(Election election, int area_id, int tribe_id, int num_of_votes) {
+/**
+ * electionAddRemoveVotesArgCheck: Check for invalid arguments to Add/Remove votes function
+ * @param election - The election
+ * @param area_id - The area of the vote 
+ * @param tribe_id - The tribe we change the votes of
+ * @param num_of_votes - The difference in votes to be made 
+ * @return 
+ *      Election error codes according to a mishap in argument values
+ * 
+ * */
+static ElectionResult electionAddRemoveVoteArgCheck(Election election,int area_id,int tribe_id,int num_of_votes){
+    if(election==NULL){
+        return ELECTION_NULL_ARGUMENT;
+    }
+    if (area_id < 0 || tribe_id < 0) {
+        return ELECTION_INVALID_ID;
+    }
     if (num_of_votes <= 0) {
         return ELECTION_INVALID_VOTES;
+    }
+    return ELECTION_SUCCESS;
+
+}
+ElectionResult electionAddVote(Election election, int area_id, int tribe_id, int num_of_votes) {
+    ElectionResult argCheck=electionAddRemoveVoteArgCheck(election,area_id,tribe_id,num_of_votes);
+    if (argCheck != ELECTION_SUCCESS){
+        return argCheck;
     }
 
     return electionAddRemoveVotes(election,area_id,tribe_id,num_of_votes);
 }
 
 ElectionResult electionRemoveVote(Election election, int area_id, int tribe_id, int num_of_votes){
-    if (num_of_votes <= 0) {
-        return ELECTION_INVALID_VOTES;
+    ElectionResult argCheck=electionAddRemoveVoteArgCheck(election,area_id,tribe_id,num_of_votes);
+    if (argCheck != ELECTION_SUCCESS){
+        return argCheck;
     }
 
     return electionAddRemoveVotes(election,area_id,tribe_id,num_of_votes * (-1));
