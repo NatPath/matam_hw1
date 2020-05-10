@@ -1,48 +1,35 @@
+
 CC=gcc
-
-EXEC=electionExe
+EXEC=election
 DEBUG_FLAG=-g
-
-TESTER_DIR=./tests/our_tests
-MAP_DIR=mtm_map
-
-
-GUR_COMPILED= election_testsV1.2_vg.o utilsV1.2_vg.o 
-TESTER=election_test_com
-
 COMP_FLAG= -std=c99 -Wall -Werror -pedantic-errors -c 
-UTILS=utils
 
-OBJS=election.o area.o AreaNode.o string_utils.o $(TESTER).o $(UTILS).o
-## Gur compiled testers, to activate '##' utils.o and tester.o rules and copy compiled files fro out_tests
-##OBJS=election.o area.o AreaNode.o string_utils.o $(TESTER_DIR)/$(GUR_COMPILED)
+TESTER_DIR=tests
+TESTER=electionTestsExample
+MAP_DIR=mtm_map
+MAP=map
+INCLUDE_DIR=-I $(TESTER_DIR) -I $(MAP_DIR)
 
-INCLUDE_DIRS=-I$(MAP_DIR) -I$(TESTER_DIR)
-COMP_OS=$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $(INCLUDE_DIRS) $*.c
+OBJS=election.o area.o AreaNode.o string_utils.o $(TESTER).o 
 
+COMPILE_OS=$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $(INCLUDE_DIR) $*.c
 $(EXEC): $(OBJS)
-	$(CC) $(DEBUG_FLAG) $(OBJS) -o $@ -L. -lmap
+	$(CC) $(DEBUG_FLAG) $(OBJS) -o $@ -L. -l$(MAP)
 
 election.o: election.c election.h $(MAP_DIR)/map.h AreaNode.h area.h string_utils.h
-	$(COMP_OS)
+	$(COMPILE_OS)
 
 area.o: area.c area.h $(MAP_DIR)/map.h string_utils.h
-	$(COMP_OS)
+	$(COMPILE_OS)
 
 AreaNode.o: AreaNode.c AreaNode.h area.h $(MAP_DIR)/map.h 
-	$(COMP_OS)
+	$(COMPILE_OS)
 
 string_utils.o: string_utils.c string_utils.h
-	$(COMP_OS)
+	$(COMPILE_OS)
 
-$(UTILS).o: $(TESTER_DIR)/$(UTILS).c $(TESTER_DIR)/$(UTILS).h
-	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $(TESTER_DIR)/$(UTILS).c
-
-$(TESTER).o: $(TESTER_DIR)/$(TESTER).c $(TESTER_DIR)/utils.h election.h $(MAP_DIR)/map.h test_utilities.h
-	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $(TESTER_DIR)/$(TESTER).c
+$(TESTER).o: $(TESTER_DIR)/$(TESTER).c election.h $(MAP_DIR)/map.h test_utilities.h
+	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $(INCLUDE_DIR) $(TESTER_DIR)/$(TESTER).c
 
 clean:
 	rm -f *.o 
-
-
-

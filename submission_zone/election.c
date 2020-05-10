@@ -312,7 +312,7 @@ static int minTribe(Map tribes){
 Map electionComputeAreasToTribesMapping (Election election){
     Map result_map = mapCreate();
     if(election) {
-        if(mapGetSize(election->tribe_id_to_name)==0){
+        if(mapGetSize(election->tribe_id_to_name)==0){//No tribes, the map should be empty
             return result_map;   
         }
         char *min_tribe=intToString(minTribe(election->tribe_id_to_name));
