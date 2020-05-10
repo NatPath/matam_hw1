@@ -1,4 +1,4 @@
-#include "map.h"
+#include "../../mtm_map/map.h"
 #include <stdio.h>
 int main(){
     Map new_map=mapCreate();

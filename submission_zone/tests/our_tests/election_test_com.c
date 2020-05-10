@@ -3,9 +3,10 @@
 #include <assert.h>
 #include "../../election.h"
 #include "../../test_utilities.h"
+#include <stdio.h>
  
 /*The number of tests*/
-#define NUMBER_TESTS 5
+#define NUMBER_TESTS 6
 #define MAX_STR_LEN 20 //Must be greater than 1
 #define MAX_VOTES 100 //Must be greater than 1
 #define NUM_OF_AREAS 30 //Do not lower beneath 12
@@ -155,7 +156,7 @@ bool testComputeAreasToTribesMapping()
     electionDestroy(election);
     return true;
 }
- 
+
 bool raiseHell()
 {
     Election election = electionCreate();
@@ -203,6 +204,69 @@ bool raiseHell()
     free(tmp);
     return true;
 }
+bool testComputeAreasToTribeMapping_Mine(){
+    Election election= electionCreate();
+    electionAddArea(election,1,"ahloompys place");
+    electionAddArea(election,2,"bhloompys place");
+    electionAddArea(election,3,"chloompys place");
+    electionAddArea(election,4,"dhloompys place");
+    electionAddArea(election,5,"ehloompys place");
+    electionRemoveAreas(election,deleteAllAreas);
+    electionAddArea(election,1,"ahloompys place");
+    electionAddArea(election,2,"bhloompys place");
+    electionAddArea(election,3,"chloompys place");
+    electionAddArea(election,4,"dhloompys place");
+    electionAddArea(election,5,"ehloompys place");
+
+    electionAddTribe(election,1,"a");
+    electionAddTribe(election,2,"b");
+    electionAddTribe(election,3,"c");
+    
+    electionAddVote(election,1,1,420);
+    electionAddVote(election,2,2,320);
+
+    electionRemoveAreas(election,deleteOnlyFirstArea);
+    Map res1=electionComputeAreasToTribesMapping(election);
+
+    MAP_FOREACH(i,res1){
+        printf("\n%s:%s\n",i,mapGet(res1,i));
+    }
+    mapDestroy(res1);
+
+    electionRemoveTribe(election,1);
+
+    Map res2=electionComputeAreasToTribesMapping(election);
+
+    printf("second round:\n");
+    MAP_FOREACH(j,res2){
+        printf("\n%s:%s\n",j,mapGet(res2,j));
+    }
+    mapDestroy(res2);
+
+    electionAddVote(election,4,3,520);
+
+    Map res3=electionComputeAreasToTribesMapping(election);
+
+    printf("third round:\n");
+    MAP_FOREACH(k,res3){
+        printf("\n%s:%s\n",k,mapGet(res3,k));
+    }
+    mapDestroy(res3);
+
+
+
+    
+    electionDestroy(election);
+
+
+
+
+
+    return true;
+
+
+
+}
  
 /*The functions for the tests should be added here*/
 bool (*tests[]) (void) = {
@@ -210,7 +274,8 @@ bool (*tests[]) (void) = {
                         testElectionRemoveAddtribe,
                         testAddRemoveVotes,
                         testComputeAreasToTribesMapping,
-                        raiseHell
+                        raiseHell,
+                        testComputeAreasToTribeMapping_Mine
 };
  
 /*The names of the test functions should be added here*/
@@ -219,7 +284,9 @@ const char* testNames[] = {
                             "testElectionRemoveAddtribe",
                             "testAddRemoveVotes",
                             "testComputeAreasToTribesMapping",
-                            "raiseHell"
+                            "raiseHell",
+                            "testComputeAreasToTribeMapping_Mine"
+
 };
  
 int main(int argc, char* argv[]) {

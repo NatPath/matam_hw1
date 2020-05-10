@@ -4,6 +4,12 @@ map/MapExe
 election/testing_dir_from_csl3/electionExe
 election/testing_dir_from_csl3/electionExe
 submission_zone/electionExe
+<<<<<<< HEAD
 election/testing_dir_from_csl3/electionExe
 MADT/madt.h
 MADT/madt.c
+=======
+submission_zone/tests/our_tests/LICENSE
+submission_zone/mtm_map/MapExe
+submission_zone/election
+>>>>>>> 32185798227e2d0be833d0eac15814a94c4adf01
