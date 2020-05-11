@@ -11,8 +11,8 @@ struct Map_t{
     PairNode iterator;
 };
 //checks whether the given element is null and returns null if it is.
-#define CHECK_NULL(parameter) \
-if(!parameter) {\
+#define CHECK_NULL(element) \
+if(!element) {\
     return NULL; \
 }\
 (void)0

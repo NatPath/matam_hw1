@@ -6,21 +6,24 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <stdio.h>
-
 #define DUMMY_HEAD -1
 #define CRASH(election) electionDestroy(election);\
 return ELECTION_OUT_OF_MEMORY; (void)0
 
 //checks whether the given element is null and returns null if it is.
-#define CHECK_NULL(element) if(!element){return NULL;} (void)0
+#define CHECK_NULL(element) \
+if(!element) {\
+    return NULL; \
+}\
+(void)0
 
 //checks whether the given element is null. 
 //releases resources and return appropriate result if it is.
 #define CHECK_NULL_CRASH(election, element) \
 if(!element){\
   CRASH(election);\
-} (void)(0)
+}\
+(void)(0)
 
 
 

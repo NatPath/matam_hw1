@@ -5,11 +5,9 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include <stdio.h>
-
 //checks whether the given element is null and returns null if it is.
-#define CHECK_NULL(parameter) \
-if(!parameter) {\
+#define CHECK_NULL(element) \
+if(!element) {\
     return NULL; \
 }\
 (void)0

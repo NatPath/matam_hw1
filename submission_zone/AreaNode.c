@@ -5,12 +5,11 @@
 
 #include <assert.h>
 
-#include <stdio.h>
 
 
 //a macro for checking null of a parameter and returning null if so
-#define CHECK_NULL(parameter) \
-if(!parameter) {\
+#define CHECK_NULL(element) \
+if(!element) {\
     return NULL; \
 }\
 (void)0
