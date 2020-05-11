@@ -10,6 +10,12 @@ struct Map_t{
     PairNode head;
     PairNode iterator;
 };
+//checks whether the given element is null and returns null if it is.
+#define CHECK_NULL(parameter) \
+if(!parameter) {\
+    return NULL; \
+}\
+(void)0
 
 /**
  * Static Functions decleration
@@ -35,9 +41,7 @@ static PairNode mapFind(Map map,const char* key,PairNode *previous);
 
 Map mapCreate(){
     Map new_map=malloc(sizeof(*new_map));
-    if(!new_map){
-        return NULL;
-    }
+    CHECK_NULL(new_map);
     new_map->head=NULL;
     new_map->iterator=NULL;
     return new_map;
@@ -49,17 +53,11 @@ void mapDestroy(Map map){
 
 
 Map mapCopy(Map map){
-    if(!map){
-        return NULL;
-    }
+    CHECK_NULL(map);
     Map new_map=mapCreate();
-    if(!new_map){
-        return NULL;
-    }
+    CHECK_NULL(new_map);
     PairNode head=copyPairNode(map->head);
-    if (!head){
-        return NULL;
-    }
+    CHECK_NULL(head);
     new_map->head=head;
     return new_map;
 }
@@ -156,9 +154,7 @@ char* mapGetNext(Map map){
     }
 
     PairNode val_holder=getNextPairNode(map->iterator);
-    if(!val_holder){
-        return NULL;
-    }
+    CHECK_NULL(val_holder);
 
     map->iterator=val_holder;
     return getKeyPair(getPairPairNode(val_holder));

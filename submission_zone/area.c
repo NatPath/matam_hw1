@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 
+//checks whether the given element is null and returns null if it is.
 #define CHECK_NULL(parameter) \
 if(!parameter) {\
     return NULL; \
@@ -19,17 +20,6 @@ struct area_t{
     Map ballot;
 };
 
-//debug functions
-
-void areaPrint(Area area){
-    printf("Printing area details:\n");
-    printf("area name: %s\n", area->name);
-    printf("area id is %d\n",area->id);
-    //printf("ballot is ",area->ballot);
-    
-}
-
-//
 
 Area areaCreate(int id,const char *name){
     Area new_area = malloc(sizeof(*new_area));
@@ -140,9 +130,6 @@ char* areaGetWinningTribe(Area area){
 
 }
 
-/*
-DEBUG FUNCTIONS
-*/
 
 
 

@@ -3,6 +3,10 @@
 #include <stdbool.h>
 
 /**
+ * Utilities function for handeling string 
+ * */
+
+/**
  * stringToInt: get a string of a number, returns it as an int
  * @param string - The string to convert
  * @return 

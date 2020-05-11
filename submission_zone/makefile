@@ -32,4 +32,4 @@ $(TESTER).o: $(TESTER_DIR)/$(TESTER).c election.h $(MAP_DIR)/map.h test_utilitie
 	$(CC) $(DEBUG_FLAG) $(COMP_FLAG) $(INCLUDE_DIR) $(TESTER_DIR)/$(TESTER).c
 
 clean:
-	rm -f *.o 
+	rm -f $(OBJS) $(EXEC)
